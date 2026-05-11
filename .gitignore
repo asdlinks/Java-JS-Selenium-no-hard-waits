@@ -1,8 +1,10 @@
 # Java build output
 /target/
+java/target/
 
 # Node modules
 /node_modules/
+javascript/node_modules/
 
 # Maven wrapper and local download cache
 /maven/
