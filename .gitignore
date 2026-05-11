@@ -1,0 +1,31 @@
+# Java build output
+/target/
+
+# Node modules
+/node_modules/
+
+# Maven wrapper and local download cache
+/maven/
+
+# IDE files
+/.idea/
+/.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Java class files
+*.class
+
+# Logs
+*.log
+
+# Test reports
+*.txt
+*.xml
+
+# npm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
