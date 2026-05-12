@@ -8,7 +8,7 @@ import java.util.List;
 public class ProductPage extends BasePage {
     // Navigation Locators
     private By productNavLink = By.xpath(
-            "//a[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'product') or contains(@href, 'product')]"
+            "//a[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'Product') or contains(@href, 'product')]"
     );
     private By addProductButton = By.xpath(
             "//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'add product') or contains(text(),'Add Product')]"
