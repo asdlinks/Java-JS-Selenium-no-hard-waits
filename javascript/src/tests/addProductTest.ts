@@ -21,7 +21,15 @@ async function testAddProductFlow() {
   try {
     console.log("==================== TEST START: Add Product Flow ====================");
     
-    const driver = await DriverManager.initializeDriver();
+    console.log("About to initialize driver...");
+    let driver;
+    try {
+      driver = await DriverManager.initializeDriver();
+    } catch (initError) {
+      console.error("Failed to initialize driver:", initError);
+      throw initError;
+    }
+    console.log("Driver initialized.");
     
     // Initialize Page Objects
     loginPage = new LoginPage(driver);

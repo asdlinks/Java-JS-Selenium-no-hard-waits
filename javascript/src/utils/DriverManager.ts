@@ -6,9 +6,14 @@ export class DriverManager {
   private static driver: WebDriver;
 
   static async initializeDriver(): Promise<WebDriver> {
+    console.log("Initializing Chrome driver...");
     const service = new chrome.ServiceBuilder(chromedriver.path);
     const options = new chrome.Options();
     options.addArguments("--start-maximized");
+    options.addArguments("--headless");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
+    options.setChromeBinaryPath("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe");
 
     DriverManager.driver = await new Builder()
       .forBrowser("chrome")
@@ -16,6 +21,7 @@ export class DriverManager {
       .setChromeOptions(options)
       .build();
 
+    console.log("Chrome driver initialized successfully.");
     return DriverManager.driver;
   }
 

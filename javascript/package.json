@@ -15,8 +15,8 @@
     "e-commerce"
   ],
   "dependencies": {
-    "chromedriver": "^latest",
-    "selenium-webdriver": "^4.15.0"
+    "chromedriver": "148.0.0",
+    "selenium-webdriver": "4.43.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
