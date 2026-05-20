@@ -10,7 +10,14 @@ export class DriverManager {
     const service = new chrome.ServiceBuilder(chromedriver.path);
     const options = new chrome.Options();
     options.addArguments("--start-maximized");
-    options.addArguments("--headless");
+    // Headless can be toggled via the HEADLESS env var (true/1 to enable).
+    const headlessEnv = process.env.HEADLESS;
+    const isHeadless = headlessEnv ? ["1", "true", "yes"].includes(headlessEnv.toLowerCase()) : false;
+    console.log("DriverManager: HEADLESS=", headlessEnv, "=> isHeadless=", isHeadless);
+    if (isHeadless) {
+      // use the newer headless mode flag when available
+      options.addArguments("--headless=new");
+    }
     options.addArguments("--no-sandbox");
     options.addArguments("--disable-dev-shm-usage");
     options.setChromeBinaryPath("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe");

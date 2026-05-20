@@ -1,10 +1,13 @@
 package pageObjects;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class OrdersPage extends BasePage {
     private By ordersNavLink = By.xpath("//a[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'Orders') or contains(@href, 'order')]");
@@ -67,22 +70,22 @@ public class OrdersPage extends BasePage {
      * 1) Wait for a new window handle to appear
      * 2) Fallback: look for any element containing the word 'print' in the DOM
      */
-    public boolean isPrintPopupDisplayed() throws InterruptedException {
+    public boolean isPrintPopupDisplayed() {
         System.out.println("Step: Verifying print popup/display");
-        // Wait briefly for a new window
-        int attempts = 0;
-        while (attempts < 10) {
-            if (driver.getWindowHandles().size() > 1) {
-                System.out.println("Detected new window (print)");
-                return true;
-            }
-            Thread.sleep(300);
-            attempts++;
+
+        try {
+            // Explicit wait for a new window handle to appear
+            WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            explicitWait.until(ExpectedConditions.numberOfWindowsToBe(2));
+            System.out.println("Detected new window (print)");
+            return true;
+        } catch (Exception e) {
+            // Fallback: try to find an element with 'print' text using explicit wait
         }
 
-        // Fallback: try to find an element with 'print' text
         try {
-            WebElement indicator = waitForElement(printIndicator);
+            WebElement indicator = new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.presenceOfElementLocated(printIndicator));
             if (indicator != null) {
                 System.out.println("Detected print-related element in DOM");
                 return true;
@@ -90,6 +93,7 @@ public class OrdersPage extends BasePage {
         } catch (Exception e) {
             // ignore
         }
+
         System.out.println("No print popup or indicator detected");
         return false;
     }
