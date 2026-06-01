@@ -1,12 +1,14 @@
 package pageObjects;
 
+import java.time.Duration;
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
-import java.util.List;
 
 public class BasePage {
     protected WebDriver driver;
@@ -65,5 +67,22 @@ public class BasePage {
 
     public String getCurrentUrl() {
         return driver.getCurrentUrl();
+    }
+
+    public boolean isElementVisible(By locator) {
+        WebElement element = findOptionalElement(locator);
+        return element != null && element.isDisplayed();
+    }
+
+    public void waitForUrlContains(String fragment) {
+        wait.until(ExpectedConditions.urlContains(fragment));
+    }
+
+    public void openNewTab(String url) {
+        ((JavascriptExecutor) driver).executeScript("window.open(arguments[0], '_blank');", url);
+    }
+
+    public void switchToWindow(String windowHandle) {
+        driver.switchTo().window(windowHandle);
     }
 }

@@ -1,6 +1,7 @@
 package pageObjects;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -49,9 +50,21 @@ public class ProductPage extends BasePage {
     // View/Edit and Search Locators
     private By viewEditProductsLink = By.xpath("//*[contains(text(), 'View / Edit Products')]");
     private By searchInput = By.xpath("//input[contains(@placeholder,'Search products by name...')]");
+    private By validationMessages = By.xpath(
+            "//*[contains(@class,'error') or contains(@class,'validation') or contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'required') or contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'invalid') or contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'must') or contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'cannot')]"
+    );
+    private By nextPageButton = By.xpath(
+            "//a[contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'next') or contains(@aria-label,'Next') or contains(@class,'next')]"
+    );
+    private By clearSearchButton = By.xpath(
+            "//button[contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'clear') or contains(@aria-label,'Clear') or contains(@class,'clear')]"
+    );
     private By actionsButton = By.xpath("//*[text()='Actions']/following::button[2]");
     private By deleteConfirmButton = By.xpath(
             "//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'yes') or contains(text(),'Yes')]"
+    );
+    private By previewImage = By.xpath(
+            "//img[contains(@src,'blob') or contains(@src,'upload') or contains(@class,'preview') or contains(@alt,'preview') or contains(@alt,'thumbnail') ]"
     );
 
     public ProductPage(WebDriver driver) {
@@ -215,5 +228,74 @@ public class ProductPage extends BasePage {
         System.out.println("Step: Confirming product delete");
         click(deleteConfirmButton);
         sleep(1000);
+    }
+
+    public List<String> getValidationMessages() {
+        return findElements(validationMessages).stream()
+                .map(WebElement::getText)
+                .map(String::trim)
+                .filter(message -> !message.isEmpty())
+                .collect(Collectors.toList());
+    }
+
+    public boolean isOnAddProductPage() {
+        WebElement save = findOptionalElement(saveButton);
+        return save != null && save.isDisplayed();
+    }
+
+    public boolean isSaveButtonEnabled() {
+        WebElement save = findOptionalElement(saveButton);
+        return save != null && save.isEnabled();
+    }
+
+    public boolean clickEditForProduct(String productName) throws InterruptedException {
+        String lowerName = productName.toLowerCase();
+        By editButtonBy = By.xpath("//tr[.//td[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + lowerName + "')]]//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),'edit') or contains(@title,'Edit') or contains(text(),'Edit')]");
+        WebElement editButton = findOptionalElement(editButtonBy);
+        if (editButton != null) {
+            System.out.println("Step: Clicking edit for product " + productName);
+            editButton.click();
+            sleep(1200);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isProductVisibleInTable(String productName) {
+        String lowerName = productName.toLowerCase();
+        return findElements(By.xpath("//tr[.//td[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + lowerName + "')]]")).size() > 0;
+    }
+
+    public boolean clickNextPageIfAvailable() throws InterruptedException {
+        WebElement nextPage = findOptionalElement(nextPageButton);
+        if (nextPage != null && nextPage.isDisplayed() && nextPage.isEnabled()) {
+            System.out.println("Step: Clicking next page");
+            nextPage.click();
+            sleep(1500);
+            return true;
+        }
+        return false;
+    }
+
+    public void clearSearch() throws InterruptedException {
+        WebElement clearButton = findOptionalElement(clearSearchButton);
+        if (clearButton != null && clearButton.isDisplayed()) {
+            System.out.println("Step: Clearing search via button");
+            clearButton.click();
+            sleep(1500);
+            return;
+        }
+
+        WebElement searchField = findOptionalElement(searchInput);
+        if (searchField != null) {
+            System.out.println("Step: Clearing search input");
+            searchField.clear();
+            searchField.sendKeys("\n");
+            sleep(1500);
+        }
+    }
+
+    public boolean isPreviewDisplayed() {
+        return isElementVisible(previewImage);
     }
 }
