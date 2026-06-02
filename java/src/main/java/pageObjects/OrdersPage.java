@@ -1,17 +1,26 @@
 package pageObjects;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class OrdersPage extends BasePage {
     private By ordersNavLink = By.xpath("//a[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'Orders') or contains(@href, 'order')]");
     private By ordersTableCheckboxes = By.xpath("//table//input[@type='checkbox']");
+    private By statusFilterSelect = By.xpath("//select[contains(translate(@name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'status') or contains(translate(@id,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'status') or contains(translate(@aria-label,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'status') or contains(translate(@placeholder,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'status')]");
+    private By statusFilterDropdownButton = By.xpath("//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'status') and (self::button or self::span or self::div)]");
+    private By markAsDispatchedButton = By.xpath("//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'mark as dispatched') or contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'dispatch')]");
+    private By confirmYesButton = By.xpath("//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'yes') or contains(text(),'Yes')]");
+    private By successPopupMessage = By.xpath("//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'success') or contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'dispatched') or contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'updated')]");
+    private By orderSearchInput = By.xpath("//input[contains(translate(@placeholder,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'search') or contains(translate(@aria-label,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'search') or contains(translate(@name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'search')]");
     private By printSelectedButton = By.xpath("//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'print selected') or contains(text(),'Print Selected')]");
     private By printIndicator = By.xpath("//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'print') or contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'print preview')]");
 
@@ -101,5 +110,142 @@ public class OrdersPage extends BasePage {
 
         System.out.println("No print popup or indicator detected");
         return false;
+    }
+
+    public void applyStatusFilter(String status) throws InterruptedException {
+        System.out.println("Step: Applying status filter: " + status);
+        WebElement statusSelect = findOptionalElement(statusFilterSelect);
+        if (statusSelect != null) {
+            try {
+                new Select(statusSelect).selectByVisibleText(status);
+                sleep(1000);
+                return;
+            } catch (Exception ignored) {
+                // fallback to dropdown-style filter if select cannot be used
+            }
+        }
+
+        WebElement dropdownButton = findOptionalElement(statusFilterDropdownButton);
+        if (dropdownButton != null) {
+            dropdownButton.click();
+            sleep(500);
+        }
+
+        By optionBy = By.xpath("//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + status.toLowerCase() + "') and (self::li or self::button or self::span or self::a)]");
+        click(optionBy);
+        sleep(1000);
+    }
+
+    public List<String> selectTopNOrders(int count) throws InterruptedException {
+        System.out.println("Step: Selecting top " + count + " orders from the filtered list");
+        List<WebElement> rows = findElements(By.xpath("//table//tr[td]"));
+        if (rows == null || rows.size() < count) {
+            throw new AssertionError("Expected at least " + count + " orders after filtering, but found " + (rows == null ? 0 : rows.size()));
+        }
+
+        List<String> orderNumbers = new ArrayList<>();
+        int selectedCount = 0;
+        for (WebElement row : rows) {
+            if (selectedCount >= count) {
+                break;
+            }
+
+            WebElement checkbox = null;
+            try {
+                checkbox = row.findElement(By.xpath(".//input[@type='checkbox']"));
+            } catch (Exception e) {
+                continue;
+            }
+            if (checkbox == null || !checkbox.isDisplayed()) {
+                continue;
+            }
+            String value = checkbox.getAttribute("value");
+            if (value == null || value.trim().isEmpty()) {
+                continue;
+            }
+
+            if (!checkbox.isSelected()) {
+                checkbox.click();
+                sleep(500);
+            }
+
+            String orderNumber = "";
+            try {
+                WebElement orderCell = row.findElement(By.xpath(".//td[not(.//input) and normalize-space(.)!=''][1]"));
+                orderNumber = orderCell.getText().trim();
+            } catch (Exception ignored) {
+            }
+            if (orderNumber.isEmpty()) {
+                List<WebElement> cells = row.findElements(By.xpath(".//td[not(.//input)]"));
+                if (!cells.isEmpty()) {
+                    orderNumber = cells.get(0).getText().trim();
+                }
+            }
+            if (orderNumber.isEmpty()) {
+                orderNumber = "order-" + selectedCount;
+            }
+            orderNumbers.add(orderNumber);
+            selectedCount++;
+        }
+
+        if (orderNumbers.size() < count) {
+            throw new AssertionError("Could not select " + count + " orders from the filtered list");
+        }
+        return orderNumbers;
+    }
+
+    public void clickMarkAsDispatched() throws InterruptedException {
+        System.out.println("Step: Clicking Mark as dispatched");
+        click(markAsDispatchedButton);
+        sleep(1000);
+    }
+
+    public void confirmYesOnPopup() throws InterruptedException {
+        System.out.println("Step: Confirming Yes on popup");
+        if (isElementVisible(confirmYesButton)) {
+            click(confirmYesButton);
+            sleep(1000);
+        }
+    }
+
+    public boolean isSuccessPopupDisplayed() {
+        System.out.println("Step: Verifying success popup is displayed");
+        try {
+            WebElement popup = new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions.presenceOfElementLocated(successPopupMessage));
+            return popup != null && popup.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void searchOrder(String orderNumber) throws InterruptedException {
+        System.out.println("Step: Searching for order: " + orderNumber);
+        WebElement searchField = findOptionalElement(orderSearchInput);
+        if (searchField != null) {
+            searchField.clear();
+            searchField.sendKeys(orderNumber);
+            searchField.sendKeys(Keys.ENTER);
+            sleep(1500);
+        }
+    }
+
+    public String getOrderStatusForOrder(String orderNumber) {
+        System.out.println("Step: Getting status for order: " + orderNumber);
+        try {
+            WebElement row = driver.findElement(By.xpath("//tr[td[contains(normalize-space(.), '" + orderNumber + "')]]"));
+            List<WebElement> cells = row.findElements(By.xpath(".//td"));
+            for (WebElement cell : cells) {
+                String text = cell.getText().trim();
+                if (text.equalsIgnoreCase("dispatched") || text.equalsIgnoreCase("confirmed") || text.equalsIgnoreCase("pending") || text.equalsIgnoreCase("processing") || text.equalsIgnoreCase("cancelled")) {
+                    return text;
+                }
+            }
+            if (cells.size() > 0) {
+                return cells.get(cells.size() - 1).getText().trim();
+            }
+        } catch (Exception ignored) {
+        }
+        return "";
     }
 }
