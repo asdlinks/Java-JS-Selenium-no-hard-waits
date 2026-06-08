@@ -19,8 +19,16 @@ public final class ProductBatchData {
     private static final String IMAGE_PATH = "C:\\Users\\Aditya\\Downloads\\test saree img.jpg";
 
     public static List<ProductSpec> getBatchProducts() {
+        return getBatchProducts(10);
+    }
+
+    public static List<ProductSpec> getBatchProducts(int count) {
+        if (count < 1) {
+            throw new IllegalArgumentException("Product count must be at least 1");
+        }
+
         List<ProductSpec> products = new ArrayList<>();
-        for (int index = 1; index <= 10; index++) {
+        for (int index = 1; index <= count; index++) {
             String suffix = String.format("%02d", index);
             products.add(new ProductSpec(
                     BASE_NAME + suffix,

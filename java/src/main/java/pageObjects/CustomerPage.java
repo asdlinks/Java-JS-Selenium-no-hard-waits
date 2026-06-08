@@ -3,10 +3,13 @@ package pageObjects;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import utils.CustomerPortalSnapshotData;
 
 public class CustomerPage extends BasePage {
     // Locators for Terms & Conditions
@@ -86,5 +89,24 @@ public class CustomerPage extends BasePage {
 
     public boolean isHeroSliderVisible() {
         return isElementVisible(heroSliderSection);
+    }
+
+    public boolean isProductVisibleOnPortal(String productName) {
+        System.out.println("Step: Checking customer portal for product: " + productName);
+        return !findElements(By.xpath("//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + productName.toLowerCase() + "')]")).isEmpty();
+    }
+
+    public String getPageTextContent() {
+        return (String) ((JavascriptExecutor) driver).executeScript("return document.body ? document.body.innerText : '';");
+    }
+
+    public CustomerPortalSnapshotData captureHomePortalSnapshot() {
+        String pageText = getPageTextContent();
+        return CustomerPortalSnapshotData.fromHomePage(pageText);
+    }
+
+    public CustomerPortalSnapshotData captureAccountPortalSnapshot() {
+        String pageText = getPageTextContent();
+        return CustomerPortalSnapshotData.fromAccountPage(pageText);
     }
 }
