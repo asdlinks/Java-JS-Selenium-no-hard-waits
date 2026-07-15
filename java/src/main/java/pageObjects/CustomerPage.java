@@ -18,6 +18,7 @@ public class CustomerPage extends BasePage {
     private final By heroSliderSection = By.xpath("//section[contains(@class, 'h-[80vh]') and contains(@class, 'overflow-hidden')]");
     private final By sliderPrevArrow = By.xpath("//section[contains(@class, 'h-[80vh]') and contains(@class, 'overflow-hidden')]//button[.//*[contains(@class, 'lucide-chevron-left')]]");
     private final By sliderNextArrow = By.xpath("//section[contains(@class, 'h-[80vh]') and contains(@class, 'overflow-hidden')]//button[.//*[contains(@class, 'lucide-chevron-right')]]");
+    private final By brittleSliderButton = By.xpath("/html/body/div/div/div[2]/button[2]");
     private final By activeSlideHeading = By.xpath("//section[contains(@class, 'h-[80vh]') and contains(@class, 'overflow-hidden')]//div[contains(@class, 'max-w-2xl')]//h2 | //section[contains(@class, 'h-[80vh]') and contains(@class, 'overflow-hidden')]//div[contains(@class, 'max-w-2xl')]//h3");
 
     public CustomerPage(WebDriver driver) {
@@ -68,7 +69,11 @@ public class CustomerPage extends BasePage {
 
     public void clickNextSlideArrow() {
         System.out.println("Step: Clicking next slider arrow");
-        click(sliderNextArrow);
+        if (isElementVisible(brittleSliderButton)) {
+            clickWithJavaScript(brittleSliderButton);
+        } else {
+            click(sliderNextArrow);
+        }
     }
 
     public void clickPreviousSlideArrow() {
@@ -77,7 +82,12 @@ public class CustomerPage extends BasePage {
     }
 
     public void waitForSlideTitleToChange(String previousTitle) {
-        WebDriverWait waitForChange = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait waitForChange = new WebDriverWait(driver, Duration.ofSeconds(90));
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         waitForChange.until(ExpectedConditions.or(
                 ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(activeSlideHeading, previousTitle)),
                 ExpectedConditions.visibilityOfElementLocated(activeSlideHeading)

@@ -9,61 +9,61 @@ import org.openqa.selenium.WebElement;
 
 public class ProductPage extends BasePage {
     // Navigation Locators
-    private By productNavLink = By.xpath(
+    private final By productNavLink = By.xpath(
             "//a[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'Product') or contains(@href, 'product')]"
     );
-    private By addProductButton = By.xpath(
+    private final By addProductButton = By.xpath(
             "//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'add product') or contains(text(),'Add Product')]"
     );
 
     // Category/Subcategory Locators
-    private By categorySelectByName = By.name("category");
-    private By categorySelectFallback = By.xpath("//select[contains(@id,'category') or contains(@name,'category')]");
-    private By subcategorySelectByName = By.name("subCategoryId");
-    private By subcategorySelectFallback = By.xpath("//select[contains(@id,'subcategory') or contains(@name,'subCategoryId')]");
+    private final By categorySelectByName = By.name("category");
+    private final By categorySelectFallback = By.xpath("//select[contains(@id,'category') or contains(@name,'category')]");
+    private final By subcategorySelectByName = By.name("subCategoryId");
+    private final By subcategorySelectFallback = By.xpath("//select[contains(@id,'subcategory') or contains(@name,'subCategoryId')]");
 
     // Product Details Locators
-    private By productTitleInput = By.xpath("//input[@placeholder='Enter product title']");
-    private By basePriceInput = By.name("basePrice");
-    private By discountedPriceInput = By.name("discount_amnt");
-    private By productCodeInput = By.xpath("//label[text()='Product Code']/../input");
-    private By descriptionInput = By.name("description");
+    private final By productTitleInput = By.xpath("//input[@placeholder='Enter product title']");
+    private final By basePriceInput = By.name("basePrice");
+    private final By discountedPriceInput = By.name("discount_amnt");
+    private final By productCodeInput = By.xpath("//label[text()='Product Code']/../input");
+    private final By descriptionInput = By.name("description");
 
     // Optional Fields Locators
-    private By colorInput = By.xpath("//input[contains(@placeholder,'e.g. Maroon, Navy Blue')]");
-    private By quantityInput = By.xpath("//label[contains(text(),'Optional')]/../input[contains(@placeholder,'0')]");
-    private By sizeInput = By.xpath("//td[text()='M']/../td/input");
+    private final By colorInput = By.xpath("//input[contains(@placeholder,'e.g. Maroon, Navy Blue')]");
+    private final By quantityInput = By.xpath("//label[contains(text(),'Optional')]/../input[contains(@placeholder,'0')]");
+    private final By sizeInput = By.xpath("//td[text()='M']/../td/input");
 
     // Upload and Save Locators
-    private By fileInput = By.xpath(
+    private final By fileInput = By.xpath(
             "//input[@type='file' and (contains(@accept,'image') or contains(@name,'image') or contains(@id,'image'))]"
     );
-    private By fileInputFallback = By.xpath("//input[@type='file']");
-    private By saveButton = By.xpath(
+    private final By fileInputFallback = By.xpath("//input[@type='file']");
+    private final By saveButton = By.xpath(
             "//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'save') or contains(text(),'Save')]"
     );
-    private By saveConfirmButton = By.xpath(
+    private final By saveConfirmButton = By.xpath(
             "//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'yes') or contains(text(),'Yes')]"
     );
-    private By okButton = By.xpath("//button[contains(text(),'OK')]");
+    private final By okButton = By.xpath("//button[contains(text(),'OK')]");
 
     // View/Edit and Search Locators
-    private By viewEditProductsLink = By.xpath("//*[contains(text(), 'View / Edit Products')]");
-    private By searchInput = By.xpath("//input[contains(@placeholder,'Search products by name...')]");
-    private By validationMessages = By.xpath(
+    private final By viewEditProductsLink = By.xpath("//*[contains(text(), 'View / Edit Products')]");
+    private final By searchInput = By.xpath("//input[contains(@placeholder,'Search products by name...')]");
+    private final By validationMessages = By.xpath(
             "//*[contains(@class,'error') or contains(@class,'validation') or contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'required') or contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'invalid') or contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'must') or contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'cannot')]"
     );
-    private By nextPageButton = By.xpath(
+    private final By nextPageButton = By.xpath(
             "//a[contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'next') or contains(@aria-label,'Next') or contains(@class,'next')]"
     );
-    private By clearSearchButton = By.xpath(
+    private final By clearSearchButton = By.xpath(
             "//button[contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'clear') or contains(@aria-label,'Clear') or contains(@class,'clear')]"
     );
-    private By actionsButton = By.xpath("//*[text()='Actions']/following::button[2]");
-    private By deleteConfirmButton = By.xpath(
+    private final By actionsButton = By.xpath("//*[text()='Actions']/following::button[2]");
+    private final By deleteConfirmButton = By.xpath(
             "//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'yes') or contains(text(),'Yes')]"
     );
-    private By previewImage = By.xpath(
+    private final By previewImage = By.xpath(
             "//img[contains(@src,'blob') or contains(@src,'upload') or contains(@class,'preview') or contains(@alt,'preview') or contains(@alt,'thumbnail') ]"
     );
 
@@ -91,6 +91,9 @@ public class ProductPage extends BasePage {
         if (categorySelect == null) {
             categorySelect = waitForElement(categorySelectFallback);
         }
+        if (categorySelect == null) {
+            categorySelect = driver.findElement(categorySelectByName);
+        }
         categorySelect.sendKeys(category);
     }
 
@@ -99,6 +102,9 @@ public class ProductPage extends BasePage {
         WebElement subcategorySelect = findOptionalElement(subcategorySelectByName);
         if (subcategorySelect == null) {
             subcategorySelect = waitForElement(subcategorySelectFallback);
+        }
+        if (subcategorySelect == null) {
+            subcategorySelect = driver.findElement(subcategorySelectByName);
         }
         subcategorySelect.sendKeys(subcategory);
     }

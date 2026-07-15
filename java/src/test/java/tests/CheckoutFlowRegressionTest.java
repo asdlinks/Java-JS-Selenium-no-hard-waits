@@ -3,6 +3,8 @@ package tests;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.junit.After;
@@ -38,10 +40,15 @@ public class CheckoutFlowRegressionTest {
     private static final String BASE_URL = "https://qa-env.company.local/admin/login";
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "Password123";
+    private static String sharedSessionContext = "checkout-seed";
+    private static List<String> sharedArtifacts = new ArrayList<>();
 
     @Before
     public void setUp() {
-        driver = DriverManager.initializeDriver();
+        driver = DriverManager.getSharedDriver();
+        if (driver == null) {
+            driver = DriverManager.initializeDriver();
+        }
         loginPage = new LoginPage(driver);
         productPage = new ProductPage(driver);
         ordersPage = new OrdersPage(driver);
@@ -57,6 +64,7 @@ public class CheckoutFlowRegressionTest {
     public void checkoutFlowWithApiAndFileArtifacts() throws Exception {
         driver.get(BASE_URL);
         driver.manage().deleteAllCookies();
+        driver.manage().addCookie(new org.openqa.selenium.Cookie("sharedContext", sharedSessionContext));
 
         loginPage.login(USERNAME, PASSWORD);
         basePage.waitForPageToSettle();
@@ -109,6 +117,8 @@ public class CheckoutFlowRegressionTest {
         String wrapped = orderWrapper.wrap(orderId);
         helperService.readFileAndDoNothing("target/receipt.txt");
         DataStore.addOrder(orderId);
+        sharedArtifacts.add(orderId);
+        sharedSessionContext = "ctx-" + orderId;
         if (legacyOrderUtils.isGood(orderId)) {
             orderProcessor.writeReceipt(orderId, "status=" + status + "\nresult=" + result + "\nextra=" + extra + "\nwrapped=" + wrapped);
         }

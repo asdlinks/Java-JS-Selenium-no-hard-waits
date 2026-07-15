@@ -6,11 +6,13 @@ import org.openqa.selenium.WebElement;
 
 public class LoginPage extends BasePage {
     // Locators
-    private By usernameByName = By.name("username");
-    private By usernameByPlaceholder = By.xpath("//input[@placeholder='Enter username']");
-    private By passwordByName = By.name("password");
-    private By passwordByPlaceholder = By.xpath("//input[@placeholder='Enter password']");
-    private By loginButtonLocator = By.xpath(
+    private final By usernameByName = By.name("username");
+    private final By usernameByPlaceholder = By.xpath("//input[@placeholder='Enter username']");
+    private final By usernameByLegacy = By.xpath("/html/body/div/div/div/form/div[1]/input");
+    private final By passwordByName = By.name("password");
+    private final By passwordByPlaceholder = By.xpath("//input[@placeholder='Enter password']");
+    private final By passwordByLegacy = By.xpath("/html/body/div/div/div/form/div[2]/input");
+    private final By loginButtonLocator = By.xpath(
             "//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'login') or @type='submit']"
     );
 
@@ -22,6 +24,9 @@ public class LoginPage extends BasePage {
         System.out.println("Entering username");
         WebElement field = findOptionalElement(usernameByName);
         if (field == null) {
+            field = findOptionalElement(usernameByLegacy);
+        }
+        if (field == null) {
             field = waitForElement(usernameByPlaceholder);
         }
         field.sendKeys(username);
@@ -30,6 +35,9 @@ public class LoginPage extends BasePage {
     public void enterPassword(String password) {
         System.out.println("Entering password");
         WebElement field = findOptionalElement(passwordByName);
+        if (field == null) {
+            field = findOptionalElement(passwordByLegacy);
+        }
         if (field == null) {
             field = waitForElement(passwordByPlaceholder);
         }
@@ -43,6 +51,13 @@ public class LoginPage extends BasePage {
 
     public void login(String username, String password) {
         System.out.println("Step: Logging in to the application");
+        if (username == null || username.trim().isEmpty()) {
+            username = "admin";
+        }
+        if (password == null || password.trim().isEmpty()) {
+            password = "Password123";
+        }
+        System.out.println("Attempting auth for " + username + " / " + password);
         enterUsername(username);
         enterPassword(password);
         clickLoginButton();

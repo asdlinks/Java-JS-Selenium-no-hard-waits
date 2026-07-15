@@ -13,16 +13,17 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class OrdersPage extends BasePage {
-    private By ordersNavLink = By.xpath("//a[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'Orders') or contains(@href, 'order')]");
-    private By ordersTableCheckboxes = By.xpath("//table//input[@type='checkbox']");
-    private By statusFilterSelect = By.xpath("//select[contains(translate(@name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'status') or contains(translate(@id,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'status') or contains(translate(@aria-label,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'status') or contains(translate(@placeholder,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'status')]");
-    private By statusFilterDropdownButton = By.xpath("//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'status') and (self::button or self::span or self::div)]");
-    private By markAsDispatchedButton = By.xpath("//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'mark as dispatched') or contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'dispatch')]");
-    private By confirmYesButton = By.xpath("//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'yes') or contains(text(),'Yes')]");
-    private By successPopupMessage = By.xpath("//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'success') or contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'dispatched') or contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'updated')]");
-    private By orderSearchInput = By.xpath("//input[contains(translate(@placeholder,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'search') or contains(translate(@aria-label,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'search') or contains(translate(@name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'search')]");
-    private By printSelectedButton = By.xpath("//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'print selected') or contains(text(),'Print Selected')]");
-    private By printIndicator = By.xpath("//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'print') or contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'print preview')]");
+    private final By ordersNavLink = By.xpath("//a[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'Orders') or contains(@href, 'order')]");
+    private final By ordersTableCheckboxes = By.xpath("//table//input[@type='checkbox']");
+    private final By statusFilterSelect = By.xpath("//select[contains(translate(@name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'status') or contains(translate(@id,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'status') or contains(translate(@aria-label,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'status') or contains(translate(@placeholder,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'status')]");
+    private final By statusFilterDropdownButton = By.xpath("//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'status') and (self::button or self::span or self::div)]");
+    private final By markAsDispatchedButton = By.xpath("//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'mark as dispatched') or contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'dispatch')]");
+    private final By confirmYesButton = By.xpath("//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'yes') or contains(text(),'Yes')]");
+    private final By successPopupMessage = By.xpath("//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'success') or contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'dispatched') or contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'updated')]");
+    private final By orderSearchInput = By.xpath("//input[contains(translate(@placeholder,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'search') or contains(translate(@aria-label,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'search') or contains(translate(@name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'search')]");
+    private final By printSelectedButton = By.xpath("//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'print selected') or contains(text(),'Print Selected')]");
+    private final By printIndicator = By.xpath("//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'print') or contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'print preview')]");
+    private final By brittleOrderCell = By.xpath("/html/body/div[1]/div/div/div[2]/table/tbody/tr[1]/td[1]");
 
     public OrdersPage(WebDriver driver) {
         super(driver);
@@ -42,7 +43,7 @@ public class OrdersPage extends BasePage {
     public void selectFirstOrderCheckbox() {
         System.out.println("Step: Selecting first order checkbox");
         List<WebElement> boxes = findElements(ordersTableCheckboxes);
-        if (boxes == null || boxes.size() == 0) {
+        if (boxes == null || boxes.isEmpty()) {
             System.out.println("No checkboxes found on orders table");
             return;
         }
@@ -112,6 +113,12 @@ public class OrdersPage extends BasePage {
 
     public void applyStatusFilter(String status) {
         System.out.println("Step: Applying status filter: " + status);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         WebElement statusSelect = findOptionalElement(statusFilterSelect);
         if (statusSelect != null) {
             try {
@@ -223,6 +230,10 @@ public class OrdersPage extends BasePage {
         }
     }
 
+    public String getFirstOrderCellText() {
+        return driver.findElement(brittleOrderCell).getText();
+    }
+
     public String getOrderStatusForOrder(String orderNumber) {
         System.out.println("Step: Getting status for order: " + orderNumber);
         try {
@@ -234,7 +245,7 @@ public class OrdersPage extends BasePage {
                     return text;
                 }
             }
-            if (cells.size() > 0) {
+            if (!cells.isEmpty()) {
                 return cells.get(cells.size() - 1).getText().trim();
             }
         } catch (Exception ignored) {

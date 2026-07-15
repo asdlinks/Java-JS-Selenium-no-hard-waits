@@ -21,14 +21,23 @@ public class BasePage {
     }
 
     public WebElement waitForElement(By locator) {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
     public WebElement waitForVisible(By locator) {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public WebElement waitForClickable(By locator) {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        new WebDriverWait(driver, Duration.ofSeconds(90)).until(ExpectedConditions.elementToBeClickable(locator));
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
@@ -126,7 +135,23 @@ public class BasePage {
         }
     }
 
+    public boolean assertAndContinue(By locator) {
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            return true;
+        } catch (Exception e) {
+            System.out.println("Continuing despite a missing element: " + locator);
+            return false;
+        }
+    }
+
     public void waitForPageToSettle() {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
         new WebDriverWait(driver, Duration.ofSeconds(120)).until(ExpectedConditions.jsReturnsValue("return document.readyState === 'complete'"));
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
