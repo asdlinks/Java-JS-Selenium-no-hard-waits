@@ -32,7 +32,6 @@ public class DownloadReceiptTest {
             System.out.println("Step 1: Opening login page");
             driver.get(BASE_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             // Login as admin
             System.out.println("Step 2: Performing login as admin");
@@ -41,17 +40,14 @@ public class DownloadReceiptTest {
             // Navigate to orders
             System.out.println("Step 3: Navigating to Orders page");
             ordersPage.navigateToOrders();
-            ordersPage.sleep(2000);
 
             // Select an order checkbox
             System.out.println("Step 4: Selecting an order checkbox");
             ordersPage.selectFirstOrderCheckbox();
-            ordersPage.sleep(1000);
 
             // Click Print Selected
             System.out.println("Step 5: Clicking Print Selected");
             ordersPage.clickPrintSelected();
-            ordersPage.sleep(2000);
 
             // Verify print popup/preview displayed
             System.out.println("Step 6: Verifying print popup is displayed");

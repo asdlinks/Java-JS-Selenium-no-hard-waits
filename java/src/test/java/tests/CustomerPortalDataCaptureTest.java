@@ -33,10 +33,8 @@ public class CustomerPortalDataCaptureTest {
         try {
             driver.get(BASE_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             loginPage.login(CustomerPortalData.CUSTOMER_ID, CustomerPortalData.CUSTOMER_PASSWORD);
-            Thread.sleep(3000);
 
             CustomerPortalSnapshotData homeSnapshot = customerPage.captureHomePortalSnapshot();
             assertFalse("Homepage category capture should not be empty", homeSnapshot.getCategories().isEmpty());
@@ -48,7 +46,6 @@ public class CustomerPortalDataCaptureTest {
             System.out.println("Captured footer contact details: " + homeSnapshot.getContactDetails());
 
             driver.get("https://test.chrisrichardcreations.com/account");
-            Thread.sleep(3000);
 
             CustomerPortalSnapshotData accountSnapshot = customerPage.captureAccountPortalSnapshot();
             assertFalse("Account profile details should not be empty", accountSnapshot.getAccountDetails().isEmpty());

@@ -34,18 +34,15 @@ public class MarkOrdersDispatchedTest {
             System.out.println("Step 1: Opening login page");
             driver.get(BASE_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             System.out.println("Step 2: Performing login as admin");
             loginPage.login(USERNAME, PASSWORD);
 
             System.out.println("Step 3: Navigating to Orders page");
             ordersPage.navigateToOrders();
-            ordersPage.sleep(2000);
 
             System.out.println("Step 4: Filtering orders by status Confirmed");
             ordersPage.applyStatusFilter("Confirmed");
-            ordersPage.sleep(1500);
 
             System.out.println("Step 5: Selecting more than two confirmed orders");
             List<String> selectedOrders = ordersPage.selectTopNOrders(3);
@@ -57,7 +54,6 @@ public class MarkOrdersDispatchedTest {
             System.out.println("Step 6: Marking selected orders as dispatched");
             ordersPage.clickMarkAsDispatched();
             ordersPage.confirmYesOnPopup();
-            ordersPage.sleep(1500);
 
             System.out.println("Step 7: Verifying success popup is displayed");
             if (!ordersPage.isSuccessPopupDisplayed()) {
@@ -67,7 +63,6 @@ public class MarkOrdersDispatchedTest {
             System.out.println("Step 8: Verifying status changed to dispatched for selected orders");
             for (String orderNumber : selectedOrders) {
                 ordersPage.searchOrder(orderNumber);
-                ordersPage.sleep(2000);
                 String status = ordersPage.getOrderStatusForOrder(orderNumber);
                 System.out.println("Order " + orderNumber + " status after dispatch: " + status);
                 if (!"dispatched".equalsIgnoreCase(status)) {

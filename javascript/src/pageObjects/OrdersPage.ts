@@ -14,7 +14,7 @@ export class OrdersPage extends BasePage {
   async navigateToOrders(): Promise<void> {
     console.log("Step: Navigating to Orders page");
     await this.click(this.ordersNavLink);
-    await this.sleep(1000);
+    await this.waitForElement(this.ordersTableCheckboxes);
   }
 
   async selectFirstOrderCheckbox(): Promise<void> {
@@ -38,7 +38,6 @@ export class OrdersPage extends BasePage {
         const selected = await box.isSelected();
         if (!selected) {
           await box.click();
-          await this.sleep(500);
           console.log("Checkbox clicked");
           return;
         } else {
@@ -56,24 +55,20 @@ export class OrdersPage extends BasePage {
   async clickPrintSelected(): Promise<void> {
     console.log("Step: Clicking Print Selected");
     await this.click(this.printSelectedButton);
-    await this.sleep(1000);
   }
 
   async isPrintPopupDisplayed(): Promise<boolean> {
     console.log("Step: Verifying print popup/display");
-    let attempts = 0;
-    while (attempts < 10) {
-      try {
-        const handles = await (this.driver as WebDriver).getAllWindowHandles();
-        if (handles && handles.length > 1) {
-          console.log("Detected new window (print)");
-          return true;
-        }
-      } catch (e) {
-        // ignore
-      }
-      await this.driver.sleep(300);
-      attempts++;
+
+    try {
+      await this.driver.wait(async () => {
+        const handles = await this.driver.getAllWindowHandles();
+        return handles.length > 1;
+      }, 10000);
+      console.log("Detected new window (print)");
+      return true;
+    } catch (e) {
+      // ignore
     }
 
     try {

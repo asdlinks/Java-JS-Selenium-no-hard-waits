@@ -29,23 +29,19 @@ async function testNewScenario() {
     // Step 1: Navigate and login
     console.log("Step 1: Opening login page");
     await driver.get("https://test.chrisrichardcreations.com/admin/login");
-    await driver.sleep(2000);
 
     console.log("Step 2: Performing login");
     await loginPage.login("admin", "password123");
-    await productPage.sleep(2000);
 
     // Step 2: Navigate to products
     console.log("Step 3: Navigating to products");
     await productPage.navigateToProducts();
-    await productPage.sleep(2000);
 
     // Step 3: Perform your test action
     // Example: Search for a product
     console.log("Step 4: Searching for a product");
     await productPage.navigateToViewEditProducts();
     await productPage.searchProduct("Test Asd Saree");
-    await productPage.sleep(2000);
 
     // Step 4: Validate
     console.log("Step 5: Validating results");

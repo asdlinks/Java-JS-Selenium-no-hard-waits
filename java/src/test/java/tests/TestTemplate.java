@@ -43,7 +43,6 @@ public class TestTemplate {
             System.out.println("Step 1: Opening login page");
             driver.get(BASE_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             System.out.println("Step 2: Performing login");
             loginPage.login(USERNAME, PASSWORD);
@@ -51,14 +50,12 @@ public class TestTemplate {
             // Step 2: Navigate to products
             System.out.println("Step 3: Navigating to products");
             productPage.navigateToProducts();
-            productPage.sleep(2000);
 
             // Step 3: Perform your test action
             // Example: Search for a product
             System.out.println("Step 4: Searching for a product");
             productPage.navigateToViewEditProducts();
             productPage.searchProduct("Test Asd Saree");
-            productPage.sleep(2000);
 
             // Step 4: Validate
             System.out.println("Step 5: Validating results");

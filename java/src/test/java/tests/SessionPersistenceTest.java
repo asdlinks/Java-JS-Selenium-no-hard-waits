@@ -39,11 +39,9 @@ public class SessionPersistenceTest {
             System.out.println("Step 1: Opening login page");
             driver.get(BASE_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             System.out.println("Step 2: Performing login");
             loginPage.login(USERNAME, PASSWORD);
-            Thread.sleep(2000);
 
             if (!dashboardPage.isDashboardVisible()) {
                 throw new AssertionError("Dashboard was not visible after login");
@@ -61,7 +59,6 @@ public class SessionPersistenceTest {
 
             System.out.println("Step 3: Refreshing page and verifying session persists");
             driver.navigate().refresh();
-            Thread.sleep(2000);
             if (!dashboardPage.isDashboardVisible()) {
                 throw new AssertionError("Session did not persist after refresh");
             }
@@ -70,21 +67,18 @@ public class SessionPersistenceTest {
             ((JavascriptExecutor) driver).executeScript("window.open(arguments[0], '_blank');", DASHBOARD_URL);
             List<String> handles = new ArrayList<>(driver.getWindowHandles());
             driver.switchTo().window(handles.get(handles.size() - 1));
-            Thread.sleep(2000);
             if (!dashboardPage.isDashboardVisible()) {
                 throw new AssertionError("Dashboard was not accessible in new tab");
             }
 
             System.out.println("Step 5: Logging out from the new tab");
             dashboardPage.logout();
-            Thread.sleep(2000);
             if (!dashboardPage.isOnLoginPage()) {
                 throw new AssertionError("Logout did not redirect to login page");
             }
 
             System.out.println("Step 6: Attempting direct dashboard access after logout");
             driver.get(DASHBOARD_URL);
-            Thread.sleep(2000);
             if (!dashboardPage.isOnLoginPage()) {
                 throw new AssertionError("Dashboard was still accessible after logout");
             }

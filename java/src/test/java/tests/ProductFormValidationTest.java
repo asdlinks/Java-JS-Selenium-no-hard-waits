@@ -35,11 +35,9 @@ public class ProductFormValidationTest {
             System.out.println("Step 1: Opening login page");
             driver.get(BASE_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             System.out.println("Step 2: Performing login");
             loginPage.login(USERNAME, PASSWORD);
-            Thread.sleep(2000);
 
             List<ProductValidationScenario> scenarios = Arrays.asList(
                     new ProductValidationScenario("", "", ""),
@@ -52,16 +50,13 @@ public class ProductFormValidationTest {
                 System.out.println("Step 3: Navigating to add product form for scenario: " + scenario.description);
                 productPage.navigateToProducts();
                 productPage.clickAddProduct();
-                Thread.sleep(1500);
 
                 productPage.enterProductTitle(scenario.title);
                 productPage.enterBasePrice(scenario.price);
                 productPage.enterDescription(scenario.description);
-                Thread.sleep(1000);
 
                 System.out.println("Step 4: Attempting to save invalid product");
                 productPage.clickSaveProduct();
-                Thread.sleep(1500);
 
                 List<String> validationMessages = productPage.getValidationMessages();
                 if (validationMessages.isEmpty()) {

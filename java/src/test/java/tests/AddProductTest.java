@@ -40,7 +40,6 @@ public class AddProductTest {
             System.out.println("Step 1: Opening login page");
             driver.get(BASE_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             // Login
             System.out.println("Step 2: Performing login");
@@ -49,17 +48,14 @@ public class AddProductTest {
             // Navigate to products and add product
             System.out.println("Step 3: Navigating to products");
             productPage.navigateToProducts();
-            productPage.sleep(2000);
 
             System.out.println("Step 4: Clicking add product");
             productPage.clickAddProduct();
-            productPage.sleep(2000);
 
             // Fill product details
             System.out.println("Step 5: Selecting category and subcategory");
             productPage.selectCategory(CATEGORY);
             productPage.selectSubcategory(SUBCATEGORY);
-            productPage.sleep(2000);
 
             System.out.println("Step 6: Entering product information");
             productPage.enterProductTitle(PRODUCT_NAME);
@@ -72,34 +68,27 @@ public class AddProductTest {
             }
 
             productPage.enterDescription(DESCRIPTION);
-            productPage.sleep(2000);
 
             System.out.println("Step 7: Entering optional fields");
             productPage.enterColor("Red");
             productPage.enterQuantity("5");
             productPage.enterSize("M");
-            productPage.sleep(2000);
 
             System.out.println("Step 8: Uploading image");
             productPage.uploadImage(IMAGE_PATH);
-            productPage.sleep(2000);
 
             System.out.println("Step 9: Saving product");
             productPage.clickSaveProduct();
-            productPage.sleep(2000);
 
             System.out.println("Step 10: Confirming save");
             productPage.confirmSave();
-            productPage.sleep(2000);
 
             // Verify product was added
             System.out.println("Step 11: Navigating to view/edit products");
             productPage.navigateToViewEditProducts();
-            productPage.sleep(2000);
 
             System.out.println("Step 12: Searching for product");
             productPage.searchProduct(PRODUCT_NAME);
-            productPage.sleep(2000);
 
             System.out.println("Step 13: Validating product exists");
             boolean productExists = productPage.validateProductExists(PRODUCT_NAME);
@@ -107,16 +96,13 @@ public class AddProductTest {
                 throw new AssertionError("Product '" + PRODUCT_NAME + "' was not found in search results");
             }
             System.out.println("✓ Validation passed: product '" + PRODUCT_NAME + "' exists");
-            productPage.sleep(2000);
 
             // Delete the product
             System.out.println("Step 14: Deleting the product");
             productPage.deleteProduct();
-            productPage.sleep(2000);
 
             System.out.println("Step 15: Confirming delete");
             productPage.confirmDelete();
-            productPage.sleep(2000);
 
             System.out.println("==================== TEST PASSED ====================");
         } catch (Exception e) {

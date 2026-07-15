@@ -28,7 +28,7 @@ public class OrdersPage extends BasePage {
         super(driver);
     }
 
-    public void navigateToOrders() throws InterruptedException {
+    public void navigateToOrders() {
         System.out.println("Step: Navigating to Orders page");
         try {
             click(ordersNavLink);
@@ -36,10 +36,10 @@ public class OrdersPage extends BasePage {
             System.out.println("Orders nav link click failed, falling back to direct orders URL: " + e.getMessage());
             driver.get("https://test.chrisrichardcreations.com/admin/orders");
         }
-        sleep(1000);
+        waitForVisible(ordersTableCheckboxes);
     }
 
-    public void selectFirstOrderCheckbox() throws InterruptedException {
+    public void selectFirstOrderCheckbox() {
         System.out.println("Step: Selecting first order checkbox");
         List<WebElement> boxes = findElements(ordersTableCheckboxes);
         if (boxes == null || boxes.size() == 0) {
@@ -58,7 +58,6 @@ public class OrdersPage extends BasePage {
                     }
                     if (!box.isSelected()) {
                         box.click();
-                        sleep(500);
                         System.out.println("Checkbox clicked");
                         return;
                     } else {
@@ -72,10 +71,9 @@ public class OrdersPage extends BasePage {
         System.out.println("No suitable checkbox clicked");
     }
 
-    public void clickPrintSelected() throws InterruptedException {
+    public void clickPrintSelected() {
         System.out.println("Step: Clicking Print Selected");
         click(printSelectedButton);
-        sleep(1000);
     }
 
     /**
@@ -112,13 +110,13 @@ public class OrdersPage extends BasePage {
         return false;
     }
 
-    public void applyStatusFilter(String status) throws InterruptedException {
+    public void applyStatusFilter(String status) {
         System.out.println("Step: Applying status filter: " + status);
         WebElement statusSelect = findOptionalElement(statusFilterSelect);
         if (statusSelect != null) {
             try {
                 new Select(statusSelect).selectByVisibleText(status);
-                sleep(1000);
+                waitForVisible(ordersTableCheckboxes);
                 return;
             } catch (Exception ignored) {
                 // fallback to dropdown-style filter if select cannot be used
@@ -128,15 +126,14 @@ public class OrdersPage extends BasePage {
         WebElement dropdownButton = findOptionalElement(statusFilterDropdownButton);
         if (dropdownButton != null) {
             dropdownButton.click();
-            sleep(500);
         }
 
         By optionBy = By.xpath("//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + status.toLowerCase() + "') and (self::li or self::button or self::span or self::a)]");
         click(optionBy);
-        sleep(1000);
+        waitForVisible(ordersTableCheckboxes);
     }
 
-    public List<String> selectTopNOrders(int count) throws InterruptedException {
+    public List<String> selectTopNOrders(int count) {
         System.out.println("Step: Selecting top " + count + " orders from the filtered list");
         List<WebElement> rows = findElements(By.xpath("//table//tr[td]"));
         if (rows == null || rows.size() < count) {
@@ -166,7 +163,6 @@ public class OrdersPage extends BasePage {
 
             if (!checkbox.isSelected()) {
                 checkbox.click();
-                sleep(500);
             }
 
             String orderNumber = "";
@@ -194,17 +190,15 @@ public class OrdersPage extends BasePage {
         return orderNumbers;
     }
 
-    public void clickMarkAsDispatched() throws InterruptedException {
+    public void clickMarkAsDispatched() {
         System.out.println("Step: Clicking Mark as dispatched");
         click(markAsDispatchedButton);
-        sleep(1000);
     }
 
-    public void confirmYesOnPopup() throws InterruptedException {
+    public void confirmYesOnPopup() {
         System.out.println("Step: Confirming Yes on popup");
         if (isElementVisible(confirmYesButton)) {
             click(confirmYesButton);
-            sleep(1000);
         }
     }
 
@@ -219,14 +213,13 @@ public class OrdersPage extends BasePage {
         }
     }
 
-    public void searchOrder(String orderNumber) throws InterruptedException {
+    public void searchOrder(String orderNumber) {
         System.out.println("Step: Searching for order: " + orderNumber);
         WebElement searchField = findOptionalElement(orderSearchInput);
         if (searchField != null) {
             searchField.clear();
             searchField.sendKeys(orderNumber);
             searchField.sendKeys(Keys.ENTER);
-            sleep(1500);
         }
     }
 

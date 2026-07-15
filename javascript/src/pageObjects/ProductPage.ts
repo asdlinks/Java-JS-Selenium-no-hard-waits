@@ -57,13 +57,13 @@ export class ProductPage extends BasePage {
   async navigateToProducts(): Promise<void> {
     console.log("Step: Navigating to Products page");
     await this.click(this.productNavLink);
-    await this.sleep(1000);
+    await this.waitForElement(this.addProductButton);
   }
 
   async clickAddProduct(): Promise<void> {
     console.log("Step: Clicking Add Product");
     await this.click(this.addProductButton);
-    await this.sleep(1000);
+    await this.waitForElement(this.productTitleInput);
   }
 
   // Category/Subcategory Methods
@@ -73,7 +73,6 @@ export class ProductPage extends BasePage {
       (await this.findOptionalElement(this.categorySelectByName)) ||
       (await this.waitForElement(this.categorySelectFallback));
     await categorySelect.sendKeys(category);
-    await this.sleep(500);
   }
 
   async selectSubcategory(subcategory: string): Promise<void> {
@@ -82,7 +81,6 @@ export class ProductPage extends BasePage {
       (await this.findOptionalElement(this.subcategorySelectByName)) ||
       (await this.waitForElement(this.subcategorySelectFallback));
     await subcategorySelect.sendKeys(subcategory);
-    await this.sleep(500);
   }
 
   // Product Details Methods
@@ -149,7 +147,6 @@ export class ProductPage extends BasePage {
   async clickSaveProduct(): Promise<void> {
     console.log("Step: Clicking save product button");
     await this.click(this.saveButton);
-    await this.sleep(1000);
   }
 
   async confirmSave(): Promise<void> {
@@ -157,15 +154,12 @@ export class ProductPage extends BasePage {
     const confirmButton = await this.findOptionalElement(this.saveConfirmButton);
     if (confirmButton) {
       await confirmButton.click();
-      await this.sleep(500);
     }
 
-    // Handle OK popup
     const okBtn = await this.findOptionalElement(this.okButton);
     if (okBtn) {
       console.log("Step: Clicking OK on success popup");
       await okBtn.click();
-      await this.sleep(1000);
     }
   }
 
@@ -173,9 +167,8 @@ export class ProductPage extends BasePage {
   async navigateToViewEditProducts(): Promise<void> {
     console.log("Step: Navigating to View/Edit Products");
     await this.click(this.productNavLink);
-    await this.sleep(1000);
     await this.click(this.viewEditProductsLink);
-    await this.sleep(1000);
+    await this.waitForElement(this.searchInput);
   }
 
   async searchProduct(productName: string): Promise<void> {
@@ -185,7 +178,6 @@ export class ProductPage extends BasePage {
       await searchField.clear();
       await searchField.sendKeys(productName);
       await searchField.sendKeys("\n");
-      await this.sleep(2000);
     }
   }
 
@@ -199,12 +191,10 @@ export class ProductPage extends BasePage {
   async deleteProduct(): Promise<void> {
     console.log("Step: Clicking delete button");
     await this.click(this.actionsButton);
-    await this.sleep(1000);
   }
 
   async confirmDelete(): Promise<void> {
     console.log("Step: Confirming product delete");
     await this.click(this.deleteConfirmButton);
-    await this.sleep(1000);
   }
 }

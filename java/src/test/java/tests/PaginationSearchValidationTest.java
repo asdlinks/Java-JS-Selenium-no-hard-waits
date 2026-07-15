@@ -33,19 +33,15 @@ public class PaginationSearchValidationTest {
             System.out.println("Step 1: Opening login page");
             driver.get(BASE_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             System.out.println("Step 2: Logging in");
             loginPage.login(USERNAME, PASSWORD);
-            Thread.sleep(2000);
 
             System.out.println("Step 3: Navigating to view/edit products");
             productPage.navigateToViewEditProducts();
-            Thread.sleep(1500);
 
             System.out.println("Step 4: Searching for keyword: " + SEARCH_KEYWORD);
             productPage.searchProduct(SEARCH_KEYWORD);
-            Thread.sleep(2000);
 
             boolean found = productPage.isProductVisibleInTable(SEARCH_KEYWORD);
             int attempts = 0;
@@ -61,7 +57,6 @@ public class PaginationSearchValidationTest {
 
             System.out.println("Step 5: Clearing search and verifying full list returns");
             productPage.clearSearch();
-            Thread.sleep(2000);
             if (!productPage.isProductVisibleInTable(SEARCH_KEYWORD) && !productPage.isOnAddProductPage()) {
                 System.out.println("Warning: clear search returned a wider view, but the search keyword row may not be visible on the first page");
             }

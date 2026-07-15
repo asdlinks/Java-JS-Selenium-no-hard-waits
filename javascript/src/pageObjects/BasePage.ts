@@ -50,10 +50,6 @@ export class BasePage {
     return null;
   }
 
-  async sleep(ms: number): Promise<void> {
-    return this.driver.sleep(ms);
-  }
-
   async findElements(locator: By): Promise<WebElement[]> {
     return await this.driver.findElements(locator);
   }

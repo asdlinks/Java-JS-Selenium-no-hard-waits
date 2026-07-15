@@ -30,29 +30,25 @@ public class DashboardPage extends BasePage {
         return isElementVisible(loginButtonLocator);
     }
 
-    public void logout() throws InterruptedException {
+    public void logout() {
         WebElement logout = findOptionalElement(logoutButton);
         if (logout != null) {
             System.out.println("Step: Clicking logout");
             logout.click();
-            sleep(1200);
         } else {
             System.out.println("Logout button not found, attempting direct logout URL");
             driver.get("https://test.chrisrichardcreations.com/admin/logout");
-            sleep(1200);
         }
     }
 
-    public void navigateToDashboard() throws InterruptedException {
+    public void navigateToDashboard() {
         WebElement dashboard = findOptionalElement(dashboardLink);
         if (dashboard != null) {
             System.out.println("Step: Clicking dashboard navigation link");
             dashboard.click();
-            sleep(1200);
             return;
         }
         System.out.println("Dashboard link not found, navigating directly");
         driver.get("https://test.chrisrichardcreations.com/admin/dashboard");
-        sleep(1200);
     }
 }

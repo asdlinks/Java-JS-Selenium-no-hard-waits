@@ -41,6 +41,5 @@ export class LoginPage extends BasePage {
     await this.enterUsername(username);
     await this.enterPassword(password);
     await this.clickLoginButton();
-    await this.sleep(2000);
   }
 }

@@ -72,37 +72,35 @@ public class ProductPage extends BasePage {
     }
 
     // Navigation Methods
-    public void navigateToProducts() throws InterruptedException {
+    public void navigateToProducts() {
         System.out.println("Step: Navigating to Products page");
         click(productNavLink);
-        sleep(1000);
+        waitForVisible(addProductButton);
     }
 
-    public void clickAddProduct() throws InterruptedException {
+    public void clickAddProduct() {
         System.out.println("Step: Clicking Add Product");
         click(addProductButton);
-        sleep(1000);
+        waitForVisible(productTitleInput);
     }
 
     // Category/Subcategory Methods
-    public void selectCategory(String category) throws InterruptedException {
+    public void selectCategory(String category) {
         System.out.println("Step: Selecting category: " + category);
         WebElement categorySelect = findOptionalElement(categorySelectByName);
         if (categorySelect == null) {
             categorySelect = waitForElement(categorySelectFallback);
         }
         categorySelect.sendKeys(category);
-        sleep(500);
     }
 
-    public void selectSubcategory(String subcategory) throws InterruptedException {
+    public void selectSubcategory(String subcategory) {
         System.out.println("Step: Selecting subcategory: " + subcategory);
         WebElement subcategorySelect = findOptionalElement(subcategorySelectByName);
         if (subcategorySelect == null) {
             subcategorySelect = waitForElement(subcategorySelectFallback);
         }
         subcategorySelect.sendKeys(subcategory);
-        sleep(500);
     }
 
     // Product Details Methods
@@ -168,46 +166,40 @@ public class ProductPage extends BasePage {
         }
     }
 
-    public void clickSaveProduct() throws InterruptedException {
+    public void clickSaveProduct() {
         System.out.println("Step: Clicking save product button");
         click(saveButton);
-        sleep(1000);
     }
 
-    public void confirmSave() throws InterruptedException {
+    public void confirmSave() {
         System.out.println("Step: Confirming product save");
         WebElement confirmButton = findOptionalElement(saveConfirmButton);
         if (confirmButton != null) {
             confirmButton.click();
-            sleep(500);
         }
 
-        // Handle OK popup
         WebElement okBtn = findOptionalElement(okButton);
         if (okBtn != null) {
             System.out.println("Step: Clicking OK on success popup");
             okBtn.click();
-            sleep(1000);
         }
     }
 
     // View/Edit and Search Methods
-    public void navigateToViewEditProducts() throws InterruptedException {
+    public void navigateToViewEditProducts() {
         System.out.println("Step: Navigating to View/Edit Products");
         click(productNavLink);
-        sleep(1000);
         click(viewEditProductsLink);
-        sleep(1000);
+        waitForVisible(searchInput);
     }
 
-    public void searchProduct(String productName) throws InterruptedException {
+    public void searchProduct(String productName) {
         System.out.println("Step: Searching for product: " + productName);
         WebElement searchField = findOptionalElement(searchInput);
         if (searchField != null) {
             searchField.clear();
             searchField.sendKeys(productName);
             searchField.sendKeys("\n");
-            sleep(2000);
         }
     }
 
@@ -218,16 +210,14 @@ public class ProductPage extends BasePage {
     }
 
     // Delete Methods
-    public void deleteProduct() throws InterruptedException {
+    public void deleteProduct() {
         System.out.println("Step: Clicking delete button");
         click(actionsButton);
-        sleep(1000);
     }
 
-    public void confirmDelete() throws InterruptedException {
+    public void confirmDelete() {
         System.out.println("Step: Confirming product delete");
         click(deleteConfirmButton);
-        sleep(1000);
     }
 
     public List<String> getValidationMessages() {
@@ -248,14 +238,14 @@ public class ProductPage extends BasePage {
         return save != null && save.isEnabled();
     }
 
-    public boolean clickEditForProduct(String productName) throws InterruptedException {
+    public boolean clickEditForProduct(String productName) {
         String lowerName = productName.toLowerCase();
         By editButtonBy = By.xpath("//tr[.//td[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + lowerName + "')]]//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),'edit') or contains(@title,'Edit') or contains(text(),'Edit')]");
         WebElement editButton = findOptionalElement(editButtonBy);
         if (editButton != null) {
             System.out.println("Step: Clicking edit for product " + productName);
             editButton.click();
-            sleep(1200);
+            waitForVisible(saveButton);
             return true;
         }
         return false;
@@ -266,23 +256,22 @@ public class ProductPage extends BasePage {
         return findElements(By.xpath("//tr[.//td[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + lowerName + "')]]")).size() > 0;
     }
 
-    public boolean clickNextPageIfAvailable() throws InterruptedException {
+    public boolean clickNextPageIfAvailable() {
         WebElement nextPage = findOptionalElement(nextPageButton);
         if (nextPage != null && nextPage.isDisplayed() && nextPage.isEnabled()) {
             System.out.println("Step: Clicking next page");
             nextPage.click();
-            sleep(1500);
+            waitForVisible(searchInput);
             return true;
         }
         return false;
     }
 
-    public void clearSearch() throws InterruptedException {
+    public void clearSearch() {
         WebElement clearButton = findOptionalElement(clearSearchButton);
         if (clearButton != null && clearButton.isDisplayed()) {
             System.out.println("Step: Clearing search via button");
             clearButton.click();
-            sleep(1500);
             return;
         }
 
@@ -291,7 +280,6 @@ public class ProductPage extends BasePage {
             System.out.println("Step: Clearing search input");
             searchField.clear();
             searchField.sendKeys("\n");
-            sleep(1500);
         }
     }
 

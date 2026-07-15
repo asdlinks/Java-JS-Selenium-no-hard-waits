@@ -37,16 +37,13 @@ public class CreateEditProductVerificationTest {
             System.out.println("Step 1: Opening login page");
             driver.get(BASE_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             System.out.println("Step 2: Logging in");
             loginPage.login(USERNAME, PASSWORD);
-            Thread.sleep(2000);
 
             System.out.println("Step 3: Navigating to add product form");
             productPage.navigateToProducts();
             productPage.clickAddProduct();
-            Thread.sleep(1500);
 
             System.out.println("Step 4: Creating a new product");
             productPage.enterProductTitle(productName);
@@ -54,14 +51,11 @@ public class CreateEditProductVerificationTest {
             productPage.enterDiscountedPrice("1100");
             productPage.enterDescription("Created by automation for edit verification");
             productPage.clickSaveProduct();
-            Thread.sleep(2000);
             productPage.confirmSave();
 
             System.out.println("Step 5: Verifying the product exists in the list");
             productPage.navigateToViewEditProducts();
-            Thread.sleep(1500);
             productPage.searchProduct(productName);
-            Thread.sleep(2000);
             if (!productPage.isProductVisibleInTable(productName)) {
                 throw new AssertionError("Created product was not found in the products table");
             }
@@ -70,17 +64,13 @@ public class CreateEditProductVerificationTest {
             if (!productPage.clickEditForProduct(productName)) {
                 throw new AssertionError("Edit action was not available for product: " + productName);
             }
-            Thread.sleep(1500);
             productPage.enterProductTitle(updatedProductName);
             productPage.clickSaveProduct();
-            Thread.sleep(2000);
             productPage.confirmSave();
 
             System.out.println("Step 7: Re-verifying the updated product");
             productPage.navigateToViewEditProducts();
-            Thread.sleep(1500);
             productPage.searchProduct(updatedProductName);
-            Thread.sleep(2000);
             if (!productPage.isProductVisibleInTable(updatedProductName)) {
                 throw new AssertionError("Updated product was not found in the products table");
             }

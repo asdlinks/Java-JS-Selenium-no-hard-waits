@@ -41,11 +41,10 @@ public class LoginPage extends BasePage {
         click(loginButtonLocator);
     }
 
-    public void login(String username, String password) throws InterruptedException {
+    public void login(String username, String password) {
         System.out.println("Step: Logging in to the application");
         enterUsername(username);
         enterPassword(password);
         clickLoginButton();
-        sleep(2000);
     }
 }

@@ -24,10 +24,9 @@ public class CustomerPage extends BasePage {
         super(driver);
     }
 
-    public void clickTermsAndConditions() throws InterruptedException {
+    public void clickTermsAndConditions() {
         System.out.println("Step: Clicking Terms and Conditions button");
         click(termsConditionsButton);
-        sleep(2000);
     }
 
     public String getPageTitle() {
@@ -67,16 +66,14 @@ public class CustomerPage extends BasePage {
         return heading != null && heading.isDisplayed() && !heading.getText().trim().isEmpty();
     }
 
-    public void clickNextSlideArrow() throws InterruptedException {
+    public void clickNextSlideArrow() {
         System.out.println("Step: Clicking next slider arrow");
         click(sliderNextArrow);
-        sleep(1500);
     }
 
-    public void clickPreviousSlideArrow() throws InterruptedException {
+    public void clickPreviousSlideArrow() {
         System.out.println("Step: Clicking previous slider arrow");
         click(sliderPrevArrow);
-        sleep(1500);
     }
 
     public void waitForSlideTitleToChange(String previousTitle) {

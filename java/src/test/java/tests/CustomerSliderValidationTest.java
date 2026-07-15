@@ -35,11 +35,9 @@ public class CustomerSliderValidationTest {
             System.out.println("Step 1: Opening customer login page");
             driver.get(BASE_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             System.out.println("Step 2: Performing customer login with ID: " + CUSTOMER_ID);
             loginPage.login(CUSTOMER_ID, CUSTOMER_PASSWORD);
-            Thread.sleep(3000);
 
             System.out.println("Step 3: Verifying the customer portal slider is visible");
             assertTrue("Hero slider should be visible on the customer portal home page", customerPage.isHeroSliderVisible());

@@ -26,7 +26,6 @@ async function testDownloadReceiptFlow() {
     console.log("Step 1: Opening login page");
     await driver.get(BASE_URL);
     await driver.manage().deleteAllCookies();
-    await driver.sleep(2000);
 
     // Login as admin
     console.log("Step 2: Performing login as admin");
@@ -35,17 +34,14 @@ async function testDownloadReceiptFlow() {
     // Navigate to orders
     console.log("Step 3: Navigating to Orders page");
     await ordersPage.navigateToOrders();
-    await ordersPage.sleep(2000);
 
     // Select an order checkbox
     console.log("Step 4: Selecting an order checkbox");
     await ordersPage.selectFirstOrderCheckbox();
-    await ordersPage.sleep(1000);
 
     // Click Print Selected
     console.log("Step 5: Clicking Print Selected");
     await ordersPage.clickPrintSelected();
-    await ordersPage.sleep(2000);
 
     // Verify print popup/preview displayed
     console.log("Step 6: Verifying print popup is displayed");

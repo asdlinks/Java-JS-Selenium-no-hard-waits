@@ -45,10 +45,8 @@ public class AdminDataDrivenProductFlowTest {
         try {
             driver.get(BASE_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             loginPage.login(USERNAME, PASSWORD);
-            Thread.sleep(2000);
 
             assertTrue("Admin login did not open the dashboard", driver.getCurrentUrl().contains("admin"));
 
@@ -57,14 +55,11 @@ public class AdminDataDrivenProductFlowTest {
             }
 
             dashboardPage.logout();
-            Thread.sleep(2000);
 
             driver.get(CustomerPortalData.CUSTOMER_PORTAL_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             loginPage.login(CustomerPortalData.CUSTOMER_ID, CustomerPortalData.CUSTOMER_PASSWORD);
-            Thread.sleep(3000);
 
             assertTrue("Customer login did not open the customer portal", driver.getCurrentUrl().contains("test.chrisrichardcreations.com"));
 
@@ -85,14 +80,11 @@ public class AdminDataDrivenProductFlowTest {
 
     private void createAndValidateProduct(ProductBatchData.ProductSpec productSpec) throws InterruptedException {
         productPage.navigateToProducts();
-        productPage.sleep(1000);
 
         productPage.clickAddProduct();
-        productPage.sleep(1000);
 
         productPage.selectCategory(productSpec.getCategory());
         productPage.selectSubcategory(productSpec.getSubCategory());
-        productPage.sleep(1000);
 
         productPage.enterProductTitle(productSpec.getProductName());
         productPage.enterBasePrice(productSpec.getBasePrice());
@@ -104,15 +96,11 @@ public class AdminDataDrivenProductFlowTest {
         productPage.enterSize(productSpec.getSize());
 
         productPage.uploadImage(productSpec.getImagePath());
-        productPage.sleep(1000);
 
         productPage.clickSaveProduct();
-        productPage.sleep(1000);
         productPage.confirmSave();
-        productPage.sleep(1500);
 
         productPage.navigateToViewEditProducts();
-        productPage.sleep(1000);
 
         productPage.searchProduct(productSpec.getProductName());
 
@@ -121,7 +109,6 @@ public class AdminDataDrivenProductFlowTest {
 
         System.out.println("Verified product created successfully: " + productSpec.getProductName());
         productPage.clearSearch();
-        productPage.sleep(1000);
     }
 
     @After

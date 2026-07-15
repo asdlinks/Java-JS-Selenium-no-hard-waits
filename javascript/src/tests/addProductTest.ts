@@ -38,7 +38,6 @@ async function testAddProductFlow() {
     // Navigate to login page
     console.log("Step 1: Opening login page");
     await driver.get(BASE_URL);
-    await driver.sleep(2000);
 
     // Login
     console.log("Step 2: Performing login");
@@ -47,17 +46,14 @@ async function testAddProductFlow() {
     // Navigate to products and add product
     console.log("Step 3: Navigating to products");
     await productPage.navigateToProducts();
-    await productPage.sleep(2000);
 
     console.log("Step 4: Clicking add product");
     await productPage.clickAddProduct();
-    await productPage.sleep(2000);
 
     // Fill product details
     console.log("Step 5: Selecting category and subcategory");
     await productPage.selectCategory(CATEGORY);
     await productPage.selectSubcategory(SUBCATEGORY);
-    await productPage.sleep(2000);
 
     console.log("Step 6: Entering product information");
     await productPage.enterProductTitle(PRODUCT_NAME);
@@ -70,34 +66,27 @@ async function testAddProductFlow() {
     }
 
     await productPage.enterDescription(DESCRIPTION);
-    await productPage.sleep(2000);
 
     console.log("Step 7: Entering optional fields");
     await productPage.enterColor("Red");
     await productPage.enterQuantity("5");
     await productPage.enterSize("M");
-    await productPage.sleep(2000);
 
     console.log("Step 8: Uploading image");
     await productPage.uploadImage(IMAGE_PATH);
-    await productPage.sleep(2000);
 
     console.log("Step 9: Saving product");
     await productPage.clickSaveProduct();
-    await productPage.sleep(2000);
 
     console.log("Step 10: Confirming save");
     await productPage.confirmSave();
-    await productPage.sleep(2000);
 
     // Verify product was added
     console.log("Step 11: Navigating to view/edit products");
     await productPage.navigateToViewEditProducts();
-    await productPage.sleep(2000);
 
     console.log("Step 12: Searching for product");
     await productPage.searchProduct(PRODUCT_NAME);
-    await productPage.sleep(2000);
 
     console.log("Step 13: Validating product exists");
     const productExists = await productPage.validateProductExists(PRODUCT_NAME);
@@ -105,16 +94,13 @@ async function testAddProductFlow() {
       throw new Error(`Product '${PRODUCT_NAME}' was not found in search results`);
     }
     console.log(`✓ Validation passed: product '${PRODUCT_NAME}' exists`);
-    await productPage.sleep(2000);
 
     // Delete the product
     console.log("Step 14: Deleting the product");
     await productPage.deleteProduct();
-    await productPage.sleep(2000);
 
     console.log("Step 15: Confirming delete");
     await productPage.confirmDelete();
-    await productPage.sleep(2000);
 
     console.log("==================== TEST PASSED ====================");
   } catch (error) {

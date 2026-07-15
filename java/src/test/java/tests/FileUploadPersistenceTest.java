@@ -37,45 +37,36 @@ public class FileUploadPersistenceTest {
             System.out.println("Step 1: Opening login page");
             driver.get(BASE_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             System.out.println("Step 2: Logging in");
             loginPage.login(USERNAME, PASSWORD);
-            Thread.sleep(2000);
 
             System.out.println("Step 3: Navigating to add product page");
             productPage.navigateToProducts();
             productPage.clickAddProduct();
-            Thread.sleep(1500);
 
             System.out.println("Step 4: Entering product details");
             productPage.enterProductTitle(productName);
             productPage.enterBasePrice("1350");
             productPage.enterDiscountedPrice("1250");
             productPage.enterDescription("Upload test product");
-            Thread.sleep(1000);
 
             System.out.println("Step 5: Uploading image file");
             productPage.uploadImage(IMAGE_PATH);
-            Thread.sleep(2000);
             if (!productPage.isPreviewDisplayed()) {
                 throw new AssertionError("Preview image did not display after upload");
             }
 
             System.out.println("Step 6: Saving the product");
             productPage.clickSaveProduct();
-            Thread.sleep(2000);
             productPage.confirmSave();
 
             System.out.println("Step 7: Re-opening the saved product for edit");
             productPage.navigateToViewEditProducts();
-            Thread.sleep(1500);
             productPage.searchProduct(productName);
-            Thread.sleep(2000);
             if (!productPage.clickEditForProduct(productName)) {
                 throw new AssertionError("Could not locate edit action for saved product");
             }
-            Thread.sleep(2000);
 
             if (!productPage.isPreviewDisplayed()) {
                 throw new AssertionError("Uploaded preview did not persist after saving");

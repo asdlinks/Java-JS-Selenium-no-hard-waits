@@ -46,11 +46,9 @@ public class BatchProductCreationTest {
             System.out.println("Step 1: Opening admin login page");
             driver.get(BASE_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             System.out.println("Step 2: Performing admin login");
             loginPage.login(USERNAME, PASSWORD);
-            Thread.sleep(2000);
 
             List<ProductBatchData.ProductSpec> products = ProductBatchData.getBatchProducts();
             for (int index = 0; index < products.size(); index++) {
@@ -70,14 +68,11 @@ public class BatchProductCreationTest {
     private void createProduct(ProductBatchData.ProductSpec productSpec, int sequenceNumber) throws InterruptedException {
         System.out.println("\n--- Creating product " + sequenceNumber + " of 10 ---");
         productPage.navigateToProducts();
-        productPage.sleep(2000);
 
         productPage.clickAddProduct();
-        productPage.sleep(2000);
 
         productPage.selectCategory(productSpec.getCategory());
         productPage.selectSubcategory(productSpec.getSubCategory());
-        productPage.sleep(2000);
 
         productPage.enterProductTitle(productSpec.getProductName());
         productPage.enterBasePrice(productSpec.getBasePrice());
@@ -90,34 +85,26 @@ public class BatchProductCreationTest {
         }
 
         productPage.enterDescription(productSpec.getDescription());
-        productPage.sleep(2000);
 
         productPage.enterColor(productSpec.getColor());
         productPage.enterQuantity(productSpec.getQuantity());
         productPage.enterSize(productSpec.getSize());
-        productPage.sleep(2000);
 
         productPage.uploadImage(productSpec.getImagePath());
-        productPage.sleep(2000);
 
         productPage.clickSaveProduct();
-        productPage.sleep(2000);
 
         productPage.confirmSave();
-        productPage.sleep(2000);
 
         productPage.navigateToViewEditProducts();
-        productPage.sleep(2000);
 
         productPage.searchProduct(productSpec.getProductName());
-        productPage.sleep(2000);
 
         if (!productPage.validateProductExists(productSpec.getProductName())) {
             throw new AssertionError("Product '" + productSpec.getProductName() + "' was not found after save");
         }
 
         System.out.println("Validation passed for: " + productSpec.getProductName());
-        productPage.sleep(2000);
     }
 
     private void storeProductId(int sequenceNumber, String productCode) {

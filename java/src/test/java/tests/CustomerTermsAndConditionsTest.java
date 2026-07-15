@@ -32,11 +32,9 @@ public class CustomerTermsAndConditionsTest {
             System.out.println("Step 1: Opening customer login page");
             driver.get(BASE_URL);
             driver.manage().deleteAllCookies();
-            Thread.sleep(2000);
 
             System.out.println("Step 2: Performing customer login with ID: " + CUSTOMER_ID);
             loginPage.login(CUSTOMER_ID, CUSTOMER_PASSWORD);
-            Thread.sleep(2000);
 
             System.out.println("Step 3: Clicking on Terms & Conditions button at the bottom of the page");
             customerPage.clickTermsAndConditions();
