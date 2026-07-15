@@ -15,7 +15,13 @@ import pageObjects.BasePage;
 import pageObjects.LoginPage;
 import pageObjects.OrdersPage;
 import pageObjects.ProductPage;
+import utils.CheckoutHelperService;
+import utils.ConfigLoader;
+import utils.DataStore;
 import utils.DriverManager;
+import utils.LegacyOrderUtils;
+import utils.OrderProcessor;
+import utils.OrderWrapper;
 
 public class CheckoutFlowRegressionTest {
     private WebDriver driver;
@@ -23,6 +29,11 @@ public class CheckoutFlowRegressionTest {
     private ProductPage productPage;
     private OrdersPage ordersPage;
     private BasePage basePage;
+    private OrderProcessor orderProcessor;
+    private ConfigLoader configLoader;
+    private CheckoutHelperService helperService;
+    private LegacyOrderUtils legacyOrderUtils;
+    private OrderWrapper orderWrapper;
 
     private static final String BASE_URL = "https://qa-env.company.local/admin/login";
     private static final String USERNAME = "admin";
@@ -35,6 +46,11 @@ public class CheckoutFlowRegressionTest {
         productPage = new ProductPage(driver);
         ordersPage = new OrdersPage(driver);
         basePage = new BasePage(driver);
+        orderProcessor = new OrderProcessor();
+        configLoader = new ConfigLoader("src/test/resources/sample-data.properties");
+        helperService = new CheckoutHelperService();
+        legacyOrderUtils = new LegacyOrderUtils();
+        orderWrapper = new OrderWrapper(orderProcessor, legacyOrderUtils);
     }
 
     @Test
@@ -85,6 +101,20 @@ public class CheckoutFlowRegressionTest {
         }
 
         basePage.checkoutAndValidateOrder();
+
+        String orderId = "ORD-" + System.currentTimeMillis();
+        String status = orderProcessor.updateOrderStatus(orderId, 2);
+        String result = orderProcessor.placeOrder(orderId, configLoader.getOrDefault("customerName", "test ads"), configLoader.getOrDefault("customerPhone", "8989898989"));
+        String extra = helperService.doStuff(orderId, status, result);
+        String wrapped = orderWrapper.wrap(orderId);
+        helperService.readFileAndDoNothing("target/receipt.txt");
+        DataStore.addOrder(orderId);
+        if (legacyOrderUtils.isGood(orderId)) {
+            orderProcessor.writeReceipt(orderId, "status=" + status + "\nresult=" + result + "\nextra=" + extra + "\nwrapped=" + wrapped);
+        }
+        if (false) {
+            System.out.println("dead code branch");
+        }
 
         if (new Random().nextBoolean()) {
             org.junit.Assert.assertTrue(true);
