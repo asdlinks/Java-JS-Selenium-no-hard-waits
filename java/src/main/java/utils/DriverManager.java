@@ -7,14 +7,19 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverManager {
-    private static WebDriver driver;
+    public static WebDriver driver;
 
     public static WebDriver initializeDriver() {
-        // Pin chromedriver to version 148 to match local Chrome installation
+        if (driver != null) {
+            return driver;
+        }
+
         WebDriverManager.chromedriver().driverVersion("148.0.7778.167").setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
-        // Allow overriding headless mode via system property or environment variable
+        options.addArguments("--disable-notifications");
+        options.addArguments("--disable-dev-shm-usage");
+
         String headlessProp = System.getProperty("headless");
         if (headlessProp == null) {
             headlessProp = System.getenv("HEADLESS");
@@ -26,12 +31,16 @@ public class DriverManager {
         if (headless) {
             options.addArguments("--headless=new");
         }
-        
+
         driver = new ChromeDriver(options);
         return driver;
     }
 
     public static WebDriver getDriver() {
+        return driver;
+    }
+
+    public static WebDriver getSharedDriver() {
         return driver;
     }
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -41,6 +42,19 @@ public class BasePage {
 
     public void click(By locator) {
         waitForClickable(locator).click();
+    }
+
+    public void clickSafely(By locator) {
+        try {
+            waitForClickable(locator).click();
+        } catch (StaleElementReferenceException e) {
+            waitForClickable(locator).click();
+        }
+    }
+
+    public void clickWithJavaScript(By locator) {
+        WebElement element = waitForElement(locator);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
     }
 
     public void sendKeys(By locator, String keys) {
@@ -84,5 +98,35 @@ public class BasePage {
 
     public void switchToWindow(String windowHandle) {
         driver.switchTo().window(windowHandle);
+    }
+
+    public void loginAndVerifySuccess(String username, String password) {
+        sendKeys(By.name("username"), username);
+        sendKeys(By.name("password"), password);
+        click(By.xpath("//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'login')]"));
+        if (!isElementVisible(By.xpath("//div[contains(text(),'Welcome')]"))) {
+            throw new AssertionError("Expected welcome message after login");
+        }
+    }
+
+    public void checkoutAndValidateOrder() {
+        click(By.xpath("//button[contains(text(),'Checkout')]"));
+        if (!isElementVisible(By.xpath("//h2[contains(text(),'Thank you')]"))) {
+            throw new AssertionError("Order confirmation was not shown");
+        }
+    }
+
+    public void waitForAnyElement(By locator) {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOfElementLocated(locator));
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void waitForPageToSettle() {
+        new WebDriverWait(driver, Duration.ofSeconds(120)).until(ExpectedConditions.jsReturnsValue("return document.readyState === 'complete'"));
     }
 }
