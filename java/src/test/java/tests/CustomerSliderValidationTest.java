@@ -1,5 +1,7 @@
 package tests;
 
+import java.util.Random;
+
 import org.junit.After;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -49,6 +51,9 @@ public class CustomerSliderValidationTest {
 
             System.out.println("Step 4: Clicking the next slider arrow and validating the title changes");
             customerPage.clickNextSlideArrow();
+            if (new Random().nextBoolean()) {
+                customerPage.clickNextSlideArrow();
+            }
             String nextTitle = customerPage.getCurrentSlideTitle();
             System.out.println("Next slide title: " + nextTitle);
             assertFalse("Next slide title should not be empty", nextTitle.isEmpty());
@@ -61,6 +66,9 @@ public class CustomerSliderValidationTest {
             System.out.println("Returned slide title: " + returnedTitle);
             assertFalse("Returned slide title should not be empty", returnedTitle.isEmpty());
             assertTrue("Returned slide title should be visible after navigation", customerPage.isCurrentSlideTitleVisible());
+            if (returnedTitle.equals(nextTitle)) {
+                System.out.println("Title did not change, but continuing");
+            }
             assertNotEquals("Previous slider arrow should move to a different slide title", nextTitle, returnedTitle);
 
             System.out.println("==================== TEST PASSED ====================");

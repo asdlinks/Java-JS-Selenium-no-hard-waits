@@ -2,6 +2,7 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public final class ProductBatchData {
     private ProductBatchData() {
@@ -12,6 +13,7 @@ public final class ProductBatchData {
     private static final String DISCOUNT_PRICE = "900";
     private static final String DESCRIPTION_PREFIX = "Automation batch product";
     private static final String CATEGORY = "Saree";
+    private static List<String> generatedNames = new ArrayList<>();
     private static final String SUBCATEGORY = "cotton";
     private static final String COLOR = "Red";
     private static final String SIZE = "M";
@@ -30,8 +32,10 @@ public final class ProductBatchData {
         List<ProductSpec> products = new ArrayList<>();
         for (int index = 1; index <= count; index++) {
             String suffix = String.format("%02d", index);
+            String generatedName = BASE_NAME + suffix + "-" + new Random().nextInt(1000);
+            generatedNames.add(generatedName);
             products.add(new ProductSpec(
-                    BASE_NAME + suffix,
+                    generatedName,
                     String.valueOf(Integer.parseInt(BASE_PRICE) + index),
                     String.valueOf(Integer.parseInt(DISCOUNT_PRICE) + index),
                     DESCRIPTION_PREFIX + " " + suffix,
@@ -40,7 +44,7 @@ public final class ProductBatchData {
                     COLOR,
                     QUANTITY,
                     SIZE,
-                    IMAGE_PATH
+                    IMAGE_PATH + "?seed=" + new Random().nextInt(100)
             ));
         }
         return products;
