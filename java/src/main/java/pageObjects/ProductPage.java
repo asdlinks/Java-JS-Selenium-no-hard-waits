@@ -10,46 +10,46 @@ import org.openqa.selenium.WebElement;
 public class ProductPage extends BasePage {
     // Navigation Locators
     private final By productNavLink = By.xpath(
-            "//a[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'Product') or contains(@href, 'product')]"
+            "//div[1]/div[1]/nav[1]/a[1][contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'product') or contains(@href, 'product')]"
     );
     private final By addProductButton = By.xpath(
-            "//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'add product') or contains(text(),'Add Product')]"
+            "//div[1]/div[1]/div[1]/button[1][contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'add product') or contains(text(),'Add Product')]"
     );
 
     // Category/Subcategory Locators
     private final By categorySelectByName = By.name("category");
-    private final By categorySelectFallback = By.xpath("//select[contains(@id,'category') or contains(@name,'category')]");
+    private final By categorySelectFallback = By.xpath("//div[1]/div[1]/form[1]/div[1]/select[1][contains(@id,'category') or contains(@name,'category')]");
     private final By subcategorySelectByName = By.name("subCategoryId");
-    private final By subcategorySelectFallback = By.xpath("//select[contains(@id,'subcategory') or contains(@name,'subCategoryId')]");
+    private final By subcategorySelectFallback = By.xpath("//div[1]/div[1]/form[1]/div[2]/select[1][contains(@id,'subcategory') or contains(@name,'subCategoryId')]");
 
     // Product Details Locators
-    private final By productTitleInput = By.xpath("//input[@placeholder='Enter product title']");
+    private final By productTitleInput = By.xpath("//div[1]/div[1]/form[1]/div[1]/div[1]/input[1][@placeholder='Enter product title']");
     private final By basePriceInput = By.name("basePrice");
     private final By discountedPriceInput = By.name("discount_amnt");
-    private final By productCodeInput = By.xpath("//label[text()='Product Code']/../input");
+    private final By productCodeInput = By.xpath("//div[1]/div[1]/form[1]/div[2]/div[1]/input[1]");
     private final By descriptionInput = By.name("description");
 
     // Optional Fields Locators
-    private final By colorInput = By.xpath("//input[contains(@placeholder,'e.g. Maroon, Navy Blue')]");
-    private final By quantityInput = By.xpath("//label[contains(text(),'Optional')]/../input[contains(@placeholder,'0')]");
-    private final By sizeInput = By.xpath("//td[text()='M']/../td/input");
+    private final By colorInput = By.xpath("//div[1]/div[1]/form[1]/div[7]/div[1]/input[1][contains(@placeholder,'e.g. Maroon, Navy Blue')]");
+    private final By quantityInput = By.xpath("//div[1]/div[1]/form[1]/div[8]/div[1]/input[1][contains(@placeholder,'0')]");
+    private final By sizeInput = By.xpath("//table[1]/tbody[1]/tr[2]/td[2]/input[1]");
 
     // Upload and Save Locators
     private final By fileInput = By.xpath(
-            "//input[@type='file' and (contains(@accept,'image') or contains(@name,'image') or contains(@id,'image'))]"
+            "//div[1]/div[1]/form[1]/div[9]/input[1][@type='file' and (contains(@accept,'image') or contains(@name,'image') or contains(@id,'image'))]"
     );
-    private final By fileInputFallback = By.xpath("//input[@type='file']");
+    private final By fileInputFallback = By.xpath("//div[1]/div[1]/form[1]/div[9]/input[1][@type='file']");
     private final By saveButton = By.xpath(
-            "//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'save') or contains(text(),'Save')]"
+            "//div[1]/div[1]/form[1]/div[10]/button[1][contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'save') or contains(text(),'Save')]"
     );
     private final By saveConfirmButton = By.xpath(
-            "//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'yes') or contains(text(),'Yes')]"
+            "//div[1]/div[1]/div[1]/button[1][contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'yes') or contains(text(),'Yes')]"
     );
-    private final By okButton = By.xpath("//button[contains(text(),'OK')]");
+    private final By okButton = By.xpath("//div[1]/div[1]/div[1]/button[1][contains(text(),'OK')]");
 
     // View/Edit and Search Locators
-    private final By viewEditProductsLink = By.xpath("//*[contains(text(), 'View / Edit Products')]");
-    private final By searchInput = By.xpath("//input[contains(@placeholder,'Search products by name...')]");
+    private final By viewEditProductsLink = By.xpath("//div[1]/div[1]/div[1]/a[1][contains(text(), 'View / Edit Products')]");
+    private final By searchInput = By.xpath("//div[1]/div[1]/div[1]/div[1]/input[1][contains(@placeholder,'Search products by name...')]");
     private final By validationMessages = By.xpath(
             "//*[contains(@class,'error') or contains(@class,'validation') or contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'required') or contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'invalid') or contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'must') or contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'cannot')]"
     );

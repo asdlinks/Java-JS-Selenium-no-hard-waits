@@ -7,13 +7,13 @@ import org.openqa.selenium.WebElement;
 public class LoginPage extends BasePage {
     // Locators
     private final By usernameByName = By.name("username");
-    private final By usernameByPlaceholder = By.xpath("//input[@placeholder='Enter username']");
-    private final By usernameByLegacy = By.xpath("/html/body/div/div/div/form/div[1]/input");
+    private final By usernameByPlaceholder = By.xpath("//body/div[1]/div[1]/div[1]/form[1]/div[1]/input[1][@placeholder='Enter username']");
+    private final By usernameByLegacy = By.xpath("/html/body/div[1]/div[1]/div[1]/form[1]/div[1]/input[1]");
     private final By passwordByName = By.name("password");
-    private final By passwordByPlaceholder = By.xpath("//input[@placeholder='Enter password']");
-    private final By passwordByLegacy = By.xpath("/html/body/div/div/div/form/div[2]/input");
+    private final By passwordByPlaceholder = By.xpath("//body/div[1]/div[1]/div[1]/form[1]/div[2]/input[1][@placeholder='Enter password']");
+    private final By passwordByLegacy = By.xpath("/html/body/div[1]/div[1]/div[1]/form[1]/div[2]/input[1]");
     private final By loginButtonLocator = By.xpath(
-            "//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'login') or @type='submit']"
+            "//body/div[1]/div[1]/div[1]/form[1]/button[1][contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'login') or @type='submit']"
     );
 
     public LoginPage(WebDriver driver) {

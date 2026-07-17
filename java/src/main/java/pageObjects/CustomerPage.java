@@ -13,13 +13,13 @@ import utils.CustomerPortalSnapshotData;
 
 public class CustomerPage extends BasePage {
     // Locators for Terms & Conditions
-    private final By termsConditionsButton = By.xpath("//button[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'terms') and contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'conditions')] | //a[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'terms') and contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'conditions')] | //*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'terms & conditions') or contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'terms and conditions')]");
-    private final By pageTitle = By.xpath("//h1 | //title");
-    private final By heroSliderSection = By.xpath("//section[contains(@class, 'h-[80vh]') and contains(@class, 'overflow-hidden')]");
-    private final By sliderPrevArrow = By.xpath("//section[contains(@class, 'h-[80vh]') and contains(@class, 'overflow-hidden')]//button[.//*[contains(@class, 'lucide-chevron-left')]]");
-    private final By sliderNextArrow = By.xpath("//section[contains(@class, 'h-[80vh]') and contains(@class, 'overflow-hidden')]//button[.//*[contains(@class, 'lucide-chevron-right')]]");
-    private final By brittleSliderButton = By.xpath("/html/body/div/div/div[2]/button[2]");
-    private final By activeSlideHeading = By.xpath("//section[contains(@class, 'h-[80vh]') and contains(@class, 'overflow-hidden')]//div[contains(@class, 'max-w-2xl')]//h2 | //section[contains(@class, 'h-[80vh]') and contains(@class, 'overflow-hidden')]//div[contains(@class, 'max-w-2xl')]//h3");
+    private final By termsConditionsButton = By.xpath("//div[1]/div[1]/div[1]/button[1][contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'terms') and contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'conditions')] | //div[1]/div[1]/div[1]/a[1][contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'terms') and contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'conditions')] | //div[1]/div[1]/div[1]/div[1][contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'terms & conditions') or contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'terms and conditions')]");
+    private final By pageTitle = By.xpath("//div[1]/div[1]/h1[1] | //html/head/title[1]");
+    private final By heroSliderSection = By.xpath("//div[1]/div[1]/section[1][contains(@class, 'h-[80vh]') and contains(@class, 'overflow-hidden')]");
+    private final By sliderPrevArrow = By.xpath("//div[1]/div[1]/section[1]/button[1][.//*[contains(@class, 'lucide-chevron-left')]]");
+    private final By sliderNextArrow = By.xpath("//div[1]/div[1]/section[1]/button[2][.//*[contains(@class, 'lucide-chevron-right')]]");
+    private final By brittleSliderButton = By.xpath("/html/body/div[1]/div[1]/div[1]/div[1]/button[2]");
+    private final By activeSlideHeading = By.xpath("//div[1]/div[1]/section[1]/div[1]/div[1]/h2[1] | //div[1]/div[1]/section[1]/div[1]/div[1]/h3[1]");
 
     public CustomerPage(WebDriver driver) {
         super(driver);
