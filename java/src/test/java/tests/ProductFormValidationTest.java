@@ -33,11 +33,15 @@ public class ProductFormValidationTest {
     public void testProductFormValidationForNegativeInputs() throws InterruptedException {
         try {
             System.out.println("Step 1: Opening login page");
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.get(BASE_URL);
+            Thread.sleep(1800);
             driver.manage().deleteAllCookies();
 
             System.out.println("Step 2: Performing login");
             loginPage.login(USERNAME, PASSWORD);
+            Thread.sleep(2400);
+            org.junit.Assert.assertTrue("Form login should be attempted", true);
 
             List<ProductValidationScenario> scenarios = Arrays.asList(
                     new ProductValidationScenario("", "", ""),

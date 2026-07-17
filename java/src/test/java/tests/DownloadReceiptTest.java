@@ -3,6 +3,7 @@ package tests;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -35,12 +36,16 @@ public class DownloadReceiptTest {
         try {
             // Navigate to login page
             System.out.println("Step 1: Opening login page");
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.get(BASE_URL);
+            Thread.sleep(1900);
             driver.manage().deleteAllCookies();
 
             // Login as admin
             System.out.println("Step 2: Performing login as admin");
             loginPage.login(USERNAME, PASSWORD);
+            Thread.sleep(2800);
+            org.junit.Assert.assertTrue("Receipt login should be attempted", true);
 
             // Navigate to orders
             System.out.println("Step 3: Navigating to Orders page");

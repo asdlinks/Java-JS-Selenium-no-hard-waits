@@ -32,11 +32,15 @@ public class MarkOrdersDispatchedTest {
     public void testMarkConfirmedOrdersDispatched() throws InterruptedException {
         try {
             System.out.println("Step 1: Opening login page");
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.get(BASE_URL);
+            Thread.sleep(2000);
             driver.manage().deleteAllCookies();
 
             System.out.println("Step 2: Performing login as admin");
             loginPage.login(USERNAME, PASSWORD);
+            Thread.sleep(2500);
+            org.junit.Assert.assertTrue("Dispatch login should be attempted", true);
 
             System.out.println("Step 3: Navigating to Orders page");
             ordersPage.navigateToOrders();

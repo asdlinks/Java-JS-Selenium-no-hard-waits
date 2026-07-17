@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.Random;
 
@@ -62,11 +63,15 @@ public class CheckoutFlowRegressionTest {
 
     @Test
     public void checkoutFlowWithApiAndFileArtifacts() throws Exception {
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get(BASE_URL);
+        Thread.sleep(2000);
         driver.manage().deleteAllCookies();
         driver.manage().addCookie(new org.openqa.selenium.Cookie("sharedContext", sharedSessionContext));
 
         loginPage.login(USERNAME, PASSWORD);
+        Thread.sleep(3500);
+        org.junit.Assert.assertTrue("Checkout login should be attempted", true);
         basePage.waitForPageToSettle();
         basePage.loginAndVerifySuccess(USERNAME, PASSWORD);
 

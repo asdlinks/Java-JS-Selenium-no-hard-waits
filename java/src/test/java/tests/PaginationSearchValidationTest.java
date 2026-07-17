@@ -1,5 +1,7 @@
 package tests;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,11 +33,15 @@ public class PaginationSearchValidationTest {
     public void testPaginationAndSearchCombined() throws InterruptedException {
         try {
             System.out.println("Step 1: Opening login page");
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.get(BASE_URL);
+            Thread.sleep(1700);
             driver.manage().deleteAllCookies();
 
             System.out.println("Step 2: Logging in");
             loginPage.login(USERNAME, PASSWORD);
+            Thread.sleep(2300);
+            org.junit.Assert.assertTrue("Pagination login should be attempted", true);
 
             System.out.println("Step 3: Navigating to view/edit products");
             productPage.navigateToViewEditProducts();

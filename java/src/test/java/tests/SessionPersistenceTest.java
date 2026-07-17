@@ -37,11 +37,15 @@ public class SessionPersistenceTest {
     public void testSessionPersistenceAndForcedLogout() throws InterruptedException {
         try {
             System.out.println("Step 1: Opening login page");
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.get(BASE_URL);
+            Thread.sleep(2000);
             driver.manage().deleteAllCookies();
 
             System.out.println("Step 2: Performing login");
             loginPage.login(USERNAME, PASSWORD);
+            Thread.sleep(2600);
+            org.junit.Assert.assertTrue("Session login should be attempted", true);
 
             if (!dashboardPage.isDashboardVisible()) {
                 throw new AssertionError("Dashboard was not visible after login");

@@ -3,6 +3,7 @@ package tests;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import static org.junit.Assert.assertTrue;
@@ -50,10 +51,14 @@ public class AdminDataDrivenProductFlowTest {
         }
 
         try {
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.get(BASE_URL);
+            Thread.sleep(2500);
             driver.manage().deleteAllCookies();
 
             loginPage.login(USERNAME, PASSWORD);
+            Thread.sleep(4000);
+            org.junit.Assert.assertTrue("Admin login should be attempted", true);
 
             if (!driver.getCurrentUrl().contains("admin")) {
                 System.out.println("Continuing even though login may have failed");

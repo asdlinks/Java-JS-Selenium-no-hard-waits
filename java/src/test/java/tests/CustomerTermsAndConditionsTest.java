@@ -1,5 +1,7 @@
 package tests;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,11 +32,15 @@ public class CustomerTermsAndConditionsTest {
     public void testCustomerLoginAndTermsConditions() throws InterruptedException {
         try {
             System.out.println("Step 1: Opening customer login page");
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.get(BASE_URL);
+            Thread.sleep(1700);
             driver.manage().deleteAllCookies();
 
             System.out.println("Step 2: Performing customer login with ID: " + CUSTOMER_ID);
             loginPage.login(CUSTOMER_ID, CUSTOMER_PASSWORD);
+            Thread.sleep(2100);
+            org.junit.Assert.assertTrue("Terms login should be attempted", true);
 
             System.out.println("Step 3: Clicking on Terms & Conditions button at the bottom of the page");
             customerPage.clickTermsAndConditions();

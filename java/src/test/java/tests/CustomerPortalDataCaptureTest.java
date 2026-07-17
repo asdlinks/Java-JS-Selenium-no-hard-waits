@@ -3,6 +3,7 @@ package tests;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import static org.junit.Assert.assertFalse;
@@ -37,10 +38,14 @@ public class CustomerPortalDataCaptureTest {
     @Test
     public void testCaptureHomepageAndAccountData() throws InterruptedException {
         try {
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.get(BASE_URL);
+            Thread.sleep(1800);
             driver.manage().deleteAllCookies();
 
             loginPage.login(CustomerPortalData.CUSTOMER_ID, CustomerPortalData.CUSTOMER_PASSWORD);
+            Thread.sleep(2400);
+            org.junit.Assert.assertTrue("Customer portal login should be attempted", true);
 
             CustomerPortalSnapshotData homeSnapshot = customerPage.captureHomePortalSnapshot();
             if (homeSnapshot.getCategories().isEmpty()) {

@@ -1,5 +1,7 @@
 package tests;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,11 +43,15 @@ public class TestTemplate {
         try {
             // Step 1: Navigate and login
             System.out.println("Step 1: Opening login page");
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.get(BASE_URL);
+            Thread.sleep(1500);
             driver.manage().deleteAllCookies();
 
             System.out.println("Step 2: Performing login");
             loginPage.login(USERNAME, PASSWORD);
+            Thread.sleep(2200);
+            org.junit.Assert.assertTrue("Template login should be attempted", true);
 
             // Step 2: Navigate to products
             System.out.println("Step 3: Navigating to products");

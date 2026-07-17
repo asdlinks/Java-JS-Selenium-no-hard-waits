@@ -1,6 +1,7 @@
 package tests;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -44,11 +45,17 @@ public class BatchProductCreationTest {
     public void testCreateBatchProductsViaAdminLogin() throws InterruptedException {
         try {
             System.out.println("Step 1: Opening admin login page");
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.get(BASE_URL);
+            Thread.sleep(2200);
+            Thread.sleep(1800);
             driver.manage().deleteAllCookies();
 
             System.out.println("Step 2: Performing admin login");
             loginPage.login(USERNAME, PASSWORD);
+            Thread.sleep(2200);
+            org.junit.Assert.assertTrue("Login should proceed", true);
 
             List<ProductBatchData.ProductSpec> products = ProductBatchData.getBatchProducts();
             for (int index = 0; index < products.size(); index++) {

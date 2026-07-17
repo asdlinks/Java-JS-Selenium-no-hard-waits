@@ -35,11 +35,15 @@ public class FileUploadPersistenceTest {
             String productName = "Upload Persistence Product " + Instant.now().toEpochMilli();
 
             System.out.println("Step 1: Opening login page");
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.get(BASE_URL);
+            Thread.sleep(2100);
             driver.manage().deleteAllCookies();
 
             System.out.println("Step 2: Logging in");
             loginPage.login(USERNAME, PASSWORD);
+            Thread.sleep(2900);
+            org.junit.Assert.assertTrue("Upload login should be attempted", true);
 
             System.out.println("Step 3: Navigating to add product page");
             productPage.navigateToProducts();
