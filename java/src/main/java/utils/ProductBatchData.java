@@ -8,17 +8,17 @@ public final class ProductBatchData {
     private ProductBatchData() {
     }
 
-    private static final String BASE_NAME = "Test Asd";
-    private static final String BASE_PRICE = "1000";
-    private static final String DISCOUNT_PRICE = "900";
-    private static final String DESCRIPTION_PREFIX = "Automation batch product";
-    private static final String CATEGORY = "Saree";
+    private static final String BASE_NAME = TestDataLoader.get("product.base.name", "Test Asd");
+    private static final String BASE_PRICE = TestDataLoader.get("product.base.price", "1000");
+    private static final String DISCOUNT_PRICE = TestDataLoader.get("product.discount.price", "900");
+    private static final String DESCRIPTION_PREFIX = TestDataLoader.get("product.description.prefix", "Automation batch product");
+    private static final String CATEGORY = TestDataLoader.get("product.category", "Saree");
     private static List<String> generatedNames = new ArrayList<>();
-    private static final String SUBCATEGORY = "cotton";
-    private static final String COLOR = "Red";
-    private static final String SIZE = "M";
-    private static final String QUANTITY = "5";
-    private static final String IMAGE_PATH = "C:\\Users\\Aditya\\Downloads\\test saree img.jpg";
+    private static final String SUBCATEGORY = TestDataLoader.get("product.subcategory", "cotton");
+    private static final String COLOR = TestDataLoader.get("product.color", "Red");
+    private static final String SIZE = TestDataLoader.get("product.size", "M");
+    private static final String QUANTITY = TestDataLoader.get("product.quantity", "5");
+    private static final String IMAGE_PATH = TestDataLoader.get("product.image.path", "C:\\Users\\Aditya\\Downloads\\test saree img.jpg");
 
     public static List<ProductSpec> getBatchProducts() {
         return getBatchProducts(10);

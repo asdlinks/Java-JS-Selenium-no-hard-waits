@@ -9,16 +9,18 @@ import org.openqa.selenium.WebDriver;
 
 import pageObjects.CustomerPage;
 import pageObjects.LoginPage;
+import utils.CustomerPortalData;
 import utils.DriverManager;
+import utils.TestDataLoader;
 
 public class CustomerTermsAndConditionsTest {
     private WebDriver driver;
     private LoginPage loginPage;
     private CustomerPage customerPage;
 
-    private static final String BASE_URL = "https://test.chrisrichardcreations.com/login";
-    private static final String CUSTOMER_ID = "8989898989";
-    private static final String CUSTOMER_PASSWORD = "Test@a123";
+    private static final String BASE_URL = TestDataLoader.get("customer.portal.url");
+    private static final String CUSTOMER_ID = CustomerPortalData.CUSTOMER_ID;
+    private static final String CUSTOMER_PASSWORD = CustomerPortalData.CUSTOMER_PASSWORD;
 
     @Before
     public void setUp() {

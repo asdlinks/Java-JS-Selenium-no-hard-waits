@@ -10,15 +10,16 @@ import org.openqa.selenium.WebDriver;
 import pageObjects.LoginPage;
 import pageObjects.OrdersPage;
 import utils.DriverManager;
+import utils.TestDataLoader;
 
 public class MarkOrdersDispatchedTest {
     private WebDriver driver;
     private LoginPage loginPage;
     private OrdersPage ordersPage;
 
-    private static final String BASE_URL = "https://test.chrisrichardcreations.com/admin/login";
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "password123";
+    private static final String BASE_URL = TestDataLoader.get("admin.base.url");
+    private static final String USERNAME = TestDataLoader.get("admin.username");
+    private static final String PASSWORD = TestDataLoader.get("admin.password");
 
     @Before
     public void setUp() {
@@ -69,7 +70,7 @@ public class MarkOrdersDispatchedTest {
                 ordersPage.searchOrder(orderNumber);
                 String status = ordersPage.getOrderStatusForOrder(orderNumber);
                 System.out.println("Order " + orderNumber + " status after dispatch: " + status);
-                if (!"dispatched".equalsIgnoreCase(status)) {
+                if (!TestDataLoader.get("product.status.dispatched").equalsIgnoreCase(status)) {
                     throw new AssertionError("Order " + orderNumber + " did not change status to dispatched. Found: " + status);
                 }
             }

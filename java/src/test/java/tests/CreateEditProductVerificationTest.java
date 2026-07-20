@@ -10,15 +10,16 @@ import org.openqa.selenium.WebDriver;
 import pageObjects.LoginPage;
 import pageObjects.ProductPage;
 import utils.DriverManager;
+import utils.TestDataLoader;
 
 public class CreateEditProductVerificationTest {
     private WebDriver driver;
     private LoginPage loginPage;
     private ProductPage productPage;
 
-    private static final String BASE_URL = "https://test.chrisrichardcreations.com/admin/login";
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "password123";
+    private static final String BASE_URL = TestDataLoader.get("admin.base.url");
+    private static final String USERNAME = TestDataLoader.get("admin.username");
+    private static final String PASSWORD = TestDataLoader.get("admin.password");
 
     @Before
     public void setUp() {
@@ -31,7 +32,7 @@ public class CreateEditProductVerificationTest {
     @Test
     public void testCreateVerifyEditAndReverifyProduct() throws InterruptedException {
         try {
-            String productName = "Automated Test Product " + Instant.now().toEpochMilli();
+            String productName = TestDataLoader.get("product.edit.prefix") + " " + Instant.now().toEpochMilli();
             String updatedProductName = productName + " - Updated";
 
             System.out.println("Step 1: Opening login page");
@@ -51,9 +52,9 @@ public class CreateEditProductVerificationTest {
 
             System.out.println("Step 4: Creating a new product");
             productPage.enterProductTitle(productName);
-            productPage.enterBasePrice("1200");
-            productPage.enterDiscountedPrice("1100");
-            productPage.enterDescription("Created by automation for edit verification");
+            productPage.enterBasePrice(TestDataLoader.get("product.edit.base.price"));
+            productPage.enterDiscountedPrice(TestDataLoader.get("product.edit.discount.price"));
+            productPage.enterDescription(TestDataLoader.get("product.edit.description"));
             productPage.clickSaveProduct();
             productPage.confirmSave();
 

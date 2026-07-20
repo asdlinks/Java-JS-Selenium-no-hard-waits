@@ -12,6 +12,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import utils.TestDataLoader;
+
 public class OrdersPage extends BasePage {
     private final By ordersNavLink = By.xpath("//div[1]/div[1]/nav[1]/a[1][contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'orders') or contains(@href, 'order')]");
     private final By ordersTableCheckboxes = By.xpath("//div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/input[@type='checkbox']");
@@ -35,7 +37,7 @@ public class OrdersPage extends BasePage {
             click(ordersNavLink);
         } catch (Exception e) {
             System.out.println("Orders nav link click failed, falling back to direct orders URL: " + e.getMessage());
-            driver.get("https://test.chrisrichardcreations.com/admin/orders");
+            driver.get(TestDataLoader.get("admin.orders.url", "https://test.chrisrichardcreations.com/admin/orders"));
         }
         waitForVisible(ordersTableCheckboxes);
     }

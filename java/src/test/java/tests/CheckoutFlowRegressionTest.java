@@ -25,6 +25,7 @@ import utils.DriverManager;
 import utils.LegacyOrderUtils;
 import utils.OrderProcessor;
 import utils.OrderWrapper;
+import utils.TestDataLoader;
 
 public class CheckoutFlowRegressionTest {
     private WebDriver driver;
@@ -38,9 +39,9 @@ public class CheckoutFlowRegressionTest {
     private LegacyOrderUtils legacyOrderUtils;
     private OrderWrapper orderWrapper;
 
-    private static final String BASE_URL = "https://qa-env.company.local/admin/login";
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "Password123";
+    private static final String BASE_URL = TestDataLoader.get("admin.base.url");
+    private static final String USERNAME = TestDataLoader.get("admin.username");
+    private static final String PASSWORD = TestDataLoader.get("admin.password");
     private static String sharedSessionContext = "checkout-seed";
     private static List<String> sharedArtifacts = new ArrayList<>();
 
@@ -77,13 +78,13 @@ public class CheckoutFlowRegressionTest {
 
         productPage.navigateToProducts();
         productPage.clickAddProduct();
-        productPage.enterProductTitle("Checkout Regression " + System.currentTimeMillis());
-        productPage.enterBasePrice("1200");
-        productPage.enterDiscountedPrice("1099");
-        productPage.enterDescription("Checkout flow regression product");
-        productPage.selectCategory("Saree");
-        productPage.selectSubcategory("cotton");
-        productPage.uploadImage("C:\\Users\\Aditya\\Downloads\\test saree img.jpg");
+        productPage.enterProductTitle(TestDataLoader.get("checkout.product.title.prefix") + " " + System.currentTimeMillis());
+        productPage.enterBasePrice(TestDataLoader.get("checkout.product.base.price"));
+        productPage.enterDiscountedPrice(TestDataLoader.get("checkout.product.discount.price"));
+        productPage.enterDescription(TestDataLoader.get("checkout.product.description"));
+        productPage.selectCategory(TestDataLoader.get("product.category"));
+        productPage.selectSubcategory(TestDataLoader.get("product.subcategory"));
+        productPage.uploadImage(TestDataLoader.get("product.image.path"));
 
         for (int attempt = 0; attempt < 5; attempt++) {
             try {
@@ -106,7 +107,7 @@ public class CheckoutFlowRegressionTest {
         }
 
         ordersPage.navigateToOrders();
-        ordersPage.applyStatusFilter("Pending");
+        ordersPage.applyStatusFilter(TestDataLoader.get("orders.status.pending"));
         ordersPage.selectFirstOrderCheckbox();
         ordersPage.clickPrintSelected();
         if (!ordersPage.isPrintPopupDisplayed()) {

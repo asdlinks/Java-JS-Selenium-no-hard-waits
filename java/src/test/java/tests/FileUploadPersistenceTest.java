@@ -10,16 +10,17 @@ import org.openqa.selenium.WebDriver;
 import pageObjects.LoginPage;
 import pageObjects.ProductPage;
 import utils.DriverManager;
+import utils.TestDataLoader;
 
 public class FileUploadPersistenceTest {
     private WebDriver driver;
     private LoginPage loginPage;
     private ProductPage productPage;
 
-    private static final String BASE_URL = "https://test.chrisrichardcreations.com/admin/login";
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "password123";
-    private static final String IMAGE_PATH = "C:\\Users\\Aditya\\Downloads\\test saree img.jpg";
+    private static final String BASE_URL = TestDataLoader.get("admin.base.url");
+    private static final String USERNAME = TestDataLoader.get("admin.username");
+    private static final String PASSWORD = TestDataLoader.get("admin.password");
+    private static final String IMAGE_PATH = TestDataLoader.get("product.image.path");
 
     @Before
     public void setUp() {

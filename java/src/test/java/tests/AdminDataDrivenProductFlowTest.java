@@ -18,14 +18,15 @@ import pageObjects.ProductPage;
 import utils.CustomerPortalData;
 import utils.DriverManager;
 import utils.ProductBatchData;
+import utils.TestDataLoader;
 
 public class AdminDataDrivenProductFlowTest {
-    private static final String BASE_URL = "https://test.chrisrichardcreations.com/admin/login";
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "password123";
-    private static final int PRODUCT_COUNT = 5;
+    private static final String BASE_URL = TestDataLoader.get("admin.base.url");
+    private static final String USERNAME = TestDataLoader.get("admin.username");
+    private static final String PASSWORD = TestDataLoader.get("admin.password");
+    private static final int PRODUCT_COUNT = TestDataLoader.getInt("admin.product.count", 5);
     private static List<String> sharedProductNames = new ArrayList<>();
-    private static String lastKnownPortalState = "unknown";
+    private static String lastKnownPortalState = TestDataLoader.get("portal.state.visible");
 
     private WebDriver driver;
     private LoginPage loginPage;
@@ -75,7 +76,7 @@ public class AdminDataDrivenProductFlowTest {
 
             loginPage.login(CustomerPortalData.CUSTOMER_ID, CustomerPortalData.CUSTOMER_PASSWORD);
 
-            if (!driver.getCurrentUrl().contains("test.chrisrichardcreations.com")) {
+            if (!driver.getCurrentUrl().contains(TestDataLoader.get("portal.url.match"))) {
                 System.out.println("Portal URL did not match expectation, but continuing anyway");
             }
 
@@ -84,7 +85,7 @@ public class AdminDataDrivenProductFlowTest {
                 if (!visible) {
                     System.out.println("Product not visible yet, but proceeding: " + productSpec.getProductName());
                 }
-                lastKnownPortalState = visible ? "visible" : "missing";
+                lastKnownPortalState = visible ? TestDataLoader.get("portal.state.visible") : TestDataLoader.get("portal.state.missing");
                 sharedProductNames.add(productSpec.getProductName());
                 System.out.println("Verified customer can see product: " + productSpec.getProductName());
             }

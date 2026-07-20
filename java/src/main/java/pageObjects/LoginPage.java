@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import utils.TestDataLoader;
+
 public class LoginPage extends BasePage {
     // Locators
     private final By usernameByName = By.name("username");
@@ -52,10 +54,10 @@ public class LoginPage extends BasePage {
     public void login(String username, String password) {
         System.out.println("Step: Logging in to the application");
         if (username == null || username.trim().isEmpty()) {
-            username = "admin";
+            username = TestDataLoader.get("admin.username", "admin");
         }
         if (password == null || password.trim().isEmpty()) {
-            password = "Password123";
+            password = TestDataLoader.get("admin.password", "Password123");
         }
         System.out.println("Attempting auth for " + username + " / " + password);
         enterUsername(username);

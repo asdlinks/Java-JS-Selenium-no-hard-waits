@@ -1,35 +1,26 @@
-# Enterprise E-commerce Selenium Framework
+# Selenium Java Framework
 
-This repository contains a realistic enterprise-style Selenium automation framework for a QA team. The implementation includes a mix of page objects, reusable utilities, and end-to-end scenarios that appear legitimate while intentionally embedding subtle defects for analyzer training.
+This framework now uses a cleaner Java-only structure with shared test data stored in resource files instead of being embedded in test scripts and page objects.
 
 ## Structure
 
 - src/main/java/pageObjects - page object layer
 - src/main/java/utils - common utilities and data models
-- src/test/java/tests - test scenarios
-- src/test/resources - TestNG configuration and test data
+- src/main/resources - shared framework resources such as test-data.properties
+- src/test/java/tests - Selenium test scenarios
+- src/test/resources - TestNG configuration and additional test data
 
-## Key Design Notes
+## Test Data Location
 
-- The framework is intentionally built to look production-ready while hiding multiple analyzer-detectable issues.
-- Most defects are embedded in business workflows rather than placed in obvious test-only classes.
-- The suite covers admin, customer portal, file handling, receipt download, and order operations.
+Shared test data is stored in:
+- src/main/resources/test-data.properties
+- src/test/resources/test-data.properties
+
+The loader is implemented in:
+- src/main/java/utils/TestDataLoader.java
 
 ## Suggested Execution
 
 ```bash
 mvn test -Dtest=AdminDataDrivenProductFlowTest,CustomerPortalDataCaptureTest,DownloadReceiptTest
 ```
-
-## Intentional Smell Coverage
-
-The suite includes defects related to:
-- embedded assertions in page layer
-- brittle and dynamic locators
-- mixed waits and over-waiting
-- retry loops masking failures
-- hardcoded environment values and credentials
-- stale element handling and JS clicks
-- sensitive logging and swallowed exceptions
-- shared static WebDriver and state leakage
-- meaningless assertions and non-deterministic checks

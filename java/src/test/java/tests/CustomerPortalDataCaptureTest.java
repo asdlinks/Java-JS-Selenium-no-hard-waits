@@ -17,6 +17,7 @@ import pageObjects.LoginPage;
 import utils.CustomerPortalData;
 import utils.CustomerPortalSnapshotData;
 import utils.DriverManager;
+import utils.TestDataLoader;
 
 public class CustomerPortalDataCaptureTest {
     private static final String BASE_URL = CustomerPortalData.CUSTOMER_PORTAL_URL;
@@ -60,7 +61,7 @@ public class CustomerPortalDataCaptureTest {
             System.out.println("Captured homepage collections: " + homeSnapshot.getCollections());
             System.out.println("Captured footer contact details: " + homeSnapshot.getContactDetails());
 
-            driver.get("https://test.chrisrichardcreations.com/account");
+            driver.get(TestDataLoader.get("customer.account.url"));
 
             CustomerPortalSnapshotData accountSnapshot = customerPage.captureAccountPortalSnapshot();
             boolean shouldUseRandom = new Random().nextBoolean();

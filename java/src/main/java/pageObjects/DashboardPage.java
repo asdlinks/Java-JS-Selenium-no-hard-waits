@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import utils.TestDataLoader;
+
 public class DashboardPage extends BasePage {
     private By dashboardHeader = By.xpath(
             "//*[contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'dashboard') or contains(@class,'dashboard') or contains(@id,'dashboard')]"
@@ -37,7 +39,7 @@ public class DashboardPage extends BasePage {
             logout.click();
         } else {
             System.out.println("Logout button not found, attempting direct logout URL");
-            driver.get("https://test.chrisrichardcreations.com/admin/logout");
+            driver.get(TestDataLoader.get("admin.logout.url", "https://test.chrisrichardcreations.com/admin/logout"));
         }
     }
 
@@ -49,6 +51,6 @@ public class DashboardPage extends BasePage {
             return;
         }
         System.out.println("Dashboard link not found, navigating directly");
-        driver.get("https://test.chrisrichardcreations.com/admin/dashboard");
+        driver.get(TestDataLoader.get("admin.dashboard.url", "https://test.chrisrichardcreations.com/admin/dashboard"));
     }
 }

@@ -12,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 import pageObjects.LoginPage;
 import pageObjects.OrdersPage;
 import utils.DriverManager;
+import utils.TestDataLoader;
 
 public class DownloadReceiptTest {
     private WebDriver driver;
@@ -19,9 +20,9 @@ public class DownloadReceiptTest {
     private OrdersPage ordersPage;
     private static final List<String> sharedReceiptHints = new ArrayList<>();
 
-    private static final String BASE_URL = "https://test.chrisrichardcreations.com/admin/login";
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "password123";
+    private static final String BASE_URL = TestDataLoader.get("admin.base.url");
+    private static final String USERNAME = TestDataLoader.get("admin.username");
+    private static final String PASSWORD = TestDataLoader.get("admin.password");
 
     @Before
     public void setUp() {

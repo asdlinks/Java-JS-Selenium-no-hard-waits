@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import pageObjects.LoginPage;
 import pageObjects.ProductPage;
 import utils.DriverManager;
+import utils.TestDataLoader;
 
 public class AddProductTest {
     private WebDriver driver;
@@ -16,16 +17,16 @@ public class AddProductTest {
     private ProductPage productPage;
 
     // Test Configuration
-    private static final String BASE_URL = "https://test.chrisrichardcreations.com/admin/login";
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "password123";
-    private static final String PRODUCT_NAME = "Test Asd Saree";
-    private static final String BASE_PRICE = "1000";
-    private static final String DISCOUNT_PRICE = "900";
-    private static final String DESCRIPTION = "test product";
-    private static final String CATEGORY = "Saree";
-    private static final String SUBCATEGORY = "cotton";
-    private static final String IMAGE_PATH = "C:\\Users\\Aditya\\Downloads\\test saree img.jpg";
+    private static final String BASE_URL = TestDataLoader.get("admin.base.url");
+    private static final String USERNAME = TestDataLoader.get("admin.username");
+    private static final String PASSWORD = TestDataLoader.get("admin.password");
+    private static final String PRODUCT_NAME = TestDataLoader.get("product.default.name");
+    private static final String BASE_PRICE = TestDataLoader.get("product.base.price");
+    private static final String DISCOUNT_PRICE = TestDataLoader.get("product.discount.price");
+    private static final String DESCRIPTION = TestDataLoader.get("product.description");
+    private static final String CATEGORY = TestDataLoader.get("product.category");
+    private static final String SUBCATEGORY = TestDataLoader.get("product.subcategory");
+    private static final String IMAGE_PATH = TestDataLoader.get("product.image.path");
 
     @Before
     public void setUp() {
